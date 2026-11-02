@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Pizarra virtual interactiva de Química: hidrocarburos cíclicos y aromáticos (5.° de secundaria). Teoría, taller de nomenclatura, ejercicios guiados y juegos.">
+<title>Pizarra Virtual: Hidrocarburos Cíclicos y Aromáticos</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%97%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<script>try{if(localStorage.getItem('hc3.tema')==='"dark"')document.documentElement.classList.add('dark');else if(localStorage.getItem('hc3.tema')===null&&matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark')}catch(e){}</script>
+<style>
+:root{
+  --bg:#eef2f7;--card:#ffffff;--card2:#f6f8fb;--ink:#0f172a;--ink2:#334155;--mut:#64748b;--line:#dfe5ee;
+  --blue:#2563eb;--blue-s:#e8f0fe;--red:#dc2626;--red-s:#fdecec;--green:#059669;--green-s:#e3f6ee;
+  --purple:#7c3aed;--purple-s:#f0eafe;--orange:#d97706;--orange-s:#fdf1de;--ok:#059669;--bad:#dc2626;
+  --shadow:0 1px 2px rgba(15,23,42,.06),0 6px 20px rgba(15,23,42,.06);
+}
+html.dark{
+  --bg:#0a1020;--card:#111a2e;--card2:#0d1527;--ink:#eef2f9;--ink2:#cbd5e5;--mut:#8b9ab3;--line:#243049;
+  --blue:#6aa0ff;--blue-s:#14264a;--red:#ff7b7b;--red-s:#3a1a22;--green:#35d09a;--green-s:#0f2e25;
+  --purple:#b79bff;--purple-s:#251a45;--orange:#fbbf24;--orange-s:#3a2a0e;--ok:#35d09a;--bad:#ff7b7b;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;min-height:100vh}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+sub{font-size:.75em}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+h1,h2,h3,h4{line-height:1.2;margin:0}
+p{margin:.5em 0}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--card);padding:8px 12px;z-index:99;border-radius:8px}
+
+/* Header */
+header.top{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#2563eb,#7c3aed);display:grid;place-items:center;color:#fff;font-size:22px;flex:none}
+.top h1{font-size:clamp(15px,2.4vw,21px);font-weight:800}
+.top small{color:var(--mut);font-size:12px;font-weight:500}
+.tools{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card2);font-size:13px;font-weight:700}
+.pill.score{background:var(--orange-s);border-color:transparent;color:var(--orange)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card2);font-weight:700;font-size:14px;transition:transform .08s,background .15s}
+.btn:hover{background:var(--blue-s)}.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}.btn.primary:hover{filter:brightness(1.1);background:var(--blue)}
+.btn.ghost{background:transparent}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.sm{padding:6px 10px;font-size:13px}
+.progress{height:4px;background:var(--line)}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2563eb,#7c3aed);transition:width .3s}
+
+/* Layout */
+.wrap{max-width:1240px;margin:0 auto;padding:16px;display:grid;grid-template-columns:260px 1fr;gap:18px;align-items:start}
+nav.idx{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;position:sticky;top:84px;box-shadow:var(--shadow);max-height:calc(100vh - 100px);overflow:auto}
+nav.idx h2{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);margin:10px 8px 6px}
+nav.idx h2:first-child{margin-top:2px}
+.nb{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:9px 10px;border:0;background:transparent;border-radius:10px;font-size:14px;font-weight:600;color:var(--ink2)}
+.nb:hover{background:var(--card2)}
+.nb[aria-current=true]{background:var(--blue-s);color:var(--blue)}
+.nb .dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;font-size:11px;color:#fff}
+.nb.seen .dot{background:var(--green);border-color:var(--green)}
+.legend{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;color:var(--ink2);font-weight:600}
+.legend span{display:flex;align-items:center;gap:6px}.legend i{width:11px;height:11px;border-radius:50%;display:inline-block}
+main.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:clamp(16px,3vw,32px);min-width:0}
+.sec-head h2{font-size:clamp(21px,3vw,30px);font-weight:800}
+.sec-head p{color:var(--mut);margin-top:4px}
+.sec-body{margin-top:18px;animation:in .25s ease both}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pager{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:26px;padding-top:16px;border-top:1px solid var(--line)}
+.pager span{color:var(--mut);font-size:13px;font-weight:700;text-align:center}
+
+/* Callouts */
+.box{border-radius:14px;padding:12px 16px;margin:14px 0;border:1px solid transparent}
+.box>b:first-child,.box>strong:first-child{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+.box.key{background:var(--purple-s);border-color:color-mix(in srgb,var(--purple) 40%,transparent)}.box.key>b:first-child{color:var(--purple)}
+.box.warn{background:var(--orange-s);border-color:color-mix(in srgb,var(--orange) 40%,transparent)}.box.warn>b:first-child{color:var(--orange)}
+.box.ess{background:var(--green-s);border-color:color-mix(in srgb,var(--green) 40%,transparent)}.box.ess>b:first-child{color:var(--green)}
+.box.info{background:var(--blue-s);border-color:color-mix(in srgb,var(--blue) 35%,transparent)}.box.info>b:first-child{color:var(--blue)}
+.grid{display:grid;gap:12px}.g2{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}.g4{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.tile{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px}
+.tile h3{font-size:14px;color:var(--blue);text-transform:uppercase;letter-spacing:.05em}
+.formula{font:800 22px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin:4px 0}
+.mut{color:var(--mut)}.small{font-size:13px}
+.tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:800;background:var(--blue-s);color:var(--blue)}
+.tag.p{background:var(--purple-s);color:var(--purple)}.tag.g{background:var(--green-s);color:var(--green)}.tag.o{background:var(--orange-s);color:var(--orange)}.tag.r{background:var(--red-s);color:var(--red)}
+code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.namebig{font:800 clamp(16px,3vw,22px)/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--blue);word-break:break-word}
+details{border:1px solid var(--line);border-radius:12px;background:var(--card2);margin:10px 0}
+details summary{cursor:pointer;padding:11px 14px;font-weight:700;list-style:none;display:flex;gap:8px;align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"▸";color:var(--blue);transition:transform .15s}
+details[open] summary::before{transform:rotate(90deg)}
+details>div{padding:0 14px 12px}
+table.t{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0}
+table.t th,table.t td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+table.t th{background:var(--card2);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+.scroll-x{overflow-x:auto}
+
+/* Molecule svg */
+.mol{display:block;margin:0 auto;max-width:100%;height:auto;overflow:visible}
+.mol text{fill:var(--ink);font:600 14px system-ui,sans-serif;user-select:none}
+.mol .t-main{fill:var(--blue)}.mol .t-hal{fill:var(--green)}
+.mol .rb{stroke:var(--blue);stroke-width:2.7;stroke-linecap:round;fill:none}
+.mol .mb{stroke:var(--blue);stroke-width:2.9;stroke-linecap:round;fill:none}
+.mol .bb{stroke:var(--ink2);stroke-width:2.2;stroke-linecap:round;fill:none}
+.mol .ar{fill:none;stroke:var(--blue);stroke-width:2.1}
+.mol .num{fill:var(--red);font:800 10.5px system-ui,sans-serif;transition:opacity .25s}
+.hide-nums .mol .num{opacity:0}
+.mol .greek{font:800 13px system-ui,sans-serif}
+.mol .hit{fill:transparent;stroke:transparent;stroke-width:2;cursor:pointer}
+.mol .hit:hover{fill:color-mix(in srgb,var(--blue) 18%,transparent);stroke:var(--blue)}
+.mol .hitb{stroke:transparent;stroke-width:16;cursor:pointer;fill:none}
+.mol .hitb:hover{stroke:color-mix(in srgb,var(--purple) 30%,transparent)}
+.mol .glow{filter:drop-shadow(0 0 5px var(--blue))}
+.figrow{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;align-items:flex-end;margin:10px 0}
+.fig{text-align:center;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:10px 14px}
+.fig figcaption,.fig .cap{font-size:12px;font-weight:800;color:var(--mut);margin-top:4px}
+
+/* Tree */
+.tree{display:flex;flex-direction:column;align-items:center;gap:10px}
+.trow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.node{border:2px solid var(--line);background:var(--card2);padding:9px 14px;border-radius:12px;font-weight:800;font-size:14px}
+.node:hover{border-color:var(--blue)}
+.node.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.node.c1{background:var(--blue-s)}.node.c2{background:var(--purple-s)}
+.arrow{color:var(--mut)}
+
+/* Quiz / steps */
+.opts{display:grid;gap:8px;margin:10px 0}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;padding:10px 12px;border:2px solid var(--line);background:var(--card2);border-radius:12px;font-weight:600}
+.opt:hover:not(:disabled){border-color:var(--blue);background:var(--blue-s)}
+.opt b{flex:none;width:24px;height:24px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:12px}
+.opt.ok{border-color:var(--ok);background:var(--green-s)}
+.opt.bad{border-color:var(--bad);background:var(--red-s)}
+.opt:disabled{cursor:default}
+.fb{padding:10px 14px;border-radius:12px;margin:10px 0;font-weight:600}
+.fb.ok{background:var(--green-s);color:var(--ok)}.fb.bad{background:var(--red-s);color:var(--bad)}
+.step{display:flex;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card2);margin:8px 0;animation:in .25s ease both}
+.step .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
+.step .b{min-width:0}.step h4{font-size:14px;margin-bottom:2px}
+.exc{border:1px solid var(--line);border-radius:18px;padding:16px;margin:18px 0;background:var(--card)}
+.exc>header{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.exc>header h3{font-size:18px}
+.enun{background:var(--card2);border-left:4px solid var(--blue);padding:10px 14px;border-radius:0 12px 12px 0;margin:8px 0}
+.ctrl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+select,input[type=number],input[type=text]{padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);min-width:0}
+input[type=range]{accent-color:var(--blue);width:min(260px,100%)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card2);font-weight:700;font-size:13px}
+.chip[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
+.tab{padding:9px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card2);font-weight:800;font-size:14px}
+.tab[aria-selected=true]{background:var(--purple);border-color:var(--purple);color:#fff}
+
+/* Games */
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:560px){.mem{grid-template-columns:repeat(3,1fr)}}
+.mc{aspect-ratio:1/1.05;border-radius:14px;border:2px solid var(--line);background:linear-gradient(135deg,var(--blue-s),var(--purple-s));display:grid;place-items:center;padding:6px;font-weight:800;text-align:center;font-size:13px;overflow:hidden;perspective:600px}
+.mc .back{font-size:26px}
+.mc.up{background:var(--card2)}
+.mc.done{border-color:var(--ok);background:var(--green-s)}
+.mc .face{width:100%;display:grid;place-items:center}
+.stat{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 12px}
+.big{font-size:44px;text-align:center}
+.bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--green);width:0;transition:width .3s}
+.flip{min-height:150px;text-align:left;border:2px solid var(--line);background:var(--card2);border-radius:16px;padding:14px;width:100%}
+.flip:hover{border-color:var(--purple)}
+.flip h3{color:var(--purple);margin-bottom:4px}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:80;overflow:hidden}
+.confetti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.9}}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:800;z-index:90;box-shadow:var(--shadow);animation:in .2s}
+@media(max-width:860px){
+  .wrap{grid-template-columns:1fr;padding:12px}
+  nav.idx{position:static;max-height:none;padding:8px}
+  #navlist{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+  nav.idx h2,.legend{display:none}
+  .nb{width:auto;white-space:nowrap;flex:none;background:var(--card2)}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{header.top,nav.idx,.pager{display:none}.wrap{display:block}main.card{box-shadow:none;border:0}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="top">
+  <div class="top-in">
+    <div class="logo" aria-hidden="true">⚗</div>
+    <div><h1>Hidrocarburos Cíclicos y Aromáticos</h1><small>Química — 5.° de secundaria · Tema 3 · pizarra interactiva</small></div>
+    <div class="tools">
+      <span class="pill score" title="Puntos ganados en ejercicios y juegos">⭐ <span id="score">0</span></span>
+      <button class="btn sm" id="numBtn" type="button" aria-pressed="true">Numeración: ON</button>
+      <button class="btn sm" id="themeBtn" type="button" aria-label="Cambiar entre tema claro y oscuro">◐ Tema</button>
+    </div>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+</header>
+<noscript><p style="padding:16px;background:#fef3c7;color:#92400e;text-align:center">Esta pizarra necesita JavaScript activado.</p></noscript>
+<div class="wrap">
+  <nav class="idx" aria-label="Secciones">
+    <div id="navlist"></div>
+    <div class="legend" aria-label="Código de colores">
+      <span><i style="background:var(--blue)"></i>Anillo / cadena</span><span><i style="background:var(--ink2)"></i>Ramas</span>
+      <span><i style="background:var(--green)"></i>Halógenos</span><span><i style="background:var(--red)"></i>Posición</span>
+      <span><i style="background:var(--purple)"></i>Regla clave</span><span><i style="background:var(--orange)"></i>Ojo / error</span>
+    </div>
+  </nav>
+  <main class="card" id="main" tabindex="-1">
+    <div class="sec-head"><h2 id="stitle"></h2><p id="ssub"></p></div>
+    <div class="sec-body" id="sbody"></div>
+    <div class="pager">
+      <button class="btn" id="prev" type="button">← Anterior</button>
+      <span id="pind"></span>
+      <button class="btn primary" id="next" type="button">Siguiente →</button>
+    </div>
+  </main>
+</div>
+
+<script>
+'use strict';
+/* =====================================================================
+   0. UTILIDADES
+   ===================================================================== */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('hc3.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('hc3.' + k, JSON.stringify(v)); } catch (e) {} }
+};
+function seeded(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const shuffle = (arr, r = Math.random) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = (a, r = Math.random) => a[Math.floor(r() * a.length)];
+const LET = 'abcdefghij';
+function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; t.setAttribute('role', 'status'); document.body.appendChild(t); setTimeout(() => t.remove(), 1800); }
+function confetti() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = document.createElement('div'); c.className = 'confetti'; c.setAttribute('aria-hidden', 'true');
+  const cols = ['#2563eb', '#7c3aed', '#059669', '#d97706', '#dc2626', '#0ea5e9'];
+  for (let i = 0; i < 46; i++) { const p = document.createElement('i'); p.style.left = Math.random() * 100 + '%'; p.style.background = cols[i % cols.length]; p.style.animationDelay = Math.random() * .5 + 's'; p.style.transform = 'rotate(' + Math.random() * 360 + 'deg)'; c.appendChild(p); }
+  document.body.appendChild(c); setTimeout(() => c.remove(), 2600);
+}
+/* puntos */
+let score = store.get('score', 0); const awarded = new Set(store.get('awarded', []));
+function renderScore() { $('#score').textContent = score; }
+function award(key, pts) { if (key) { if (awarded.has(key)) return false; awarded.add(key); store.set('awarded', [...awarded]); } score += pts; store.set('score', score); renderScore(); return true; }
+
+/* =====================================================================
+   1. MOTOR DE DIBUJO (SVG)
+   ===================================================================== */
+const U = 34;                                  // píxeles por unidad
+const SUBS = {
+  metil:      { d: 'metil',      tree: { l: 'CH3' } },
+  etil:       { d: 'etil',       tree: { l: 'CH2', k: [{ l: 'CH3' }] } },
+  propil:     { d: 'propil',     tree: { l: 'CH2', k: [{ l: 'CH2', k: [{ l: 'CH3' }] }] } },
+  isopropil:  { d: 'isopropil',  tree: { l: 'CH', k: [{ l: 'CH3' }, { l: 'CH3' }] } },
+  'tert-butil': { d: 'tert-butil', sort: 'butil', tree: { l: 'C', k: [{ l: 'CH3' }, { l: 'CH3' }, { l: 'CH3' }] } },
+  bromo:      { d: 'bromo',      tree: { l: 'Br' } },
+  cloro:      { d: 'cloro',      tree: { l: 'Cl' } },
+  nitro:      { d: 'nitro',      tree: { l: 'NO2' } }
+};
+const sk = k => SUBS[k].sort || SUBS[k].d;
+const T = (l, k, o) => ({ l, k, o });
+
+class Fig {
+  constructor() { this.A = []; this.B = []; this.C = []; this.G = []; this.R = []; this.main = []; this.X = []; }
+  a(l, x, y, cls = '') { this.A.push({ l, x, y, cls }); return this.A.length - 1; }
+  b(i, j, o = 1, cls = '', ctr = null) { this.B.push({ i, j, o, cls, ctr }); }
+  poly(cx, cy, n, rot, R, o = {}) {
+    const ids = [], dbl = new Set(o.dbl || []);
+    for (let k = 0; k < n; k++) { const t = (rot - 360 / n * k) * Math.PI / 180; ids.push(this.a(o.lab && o.lab[k] || '', cx + R * Math.cos(t), cy + R * Math.sin(t), 'ring')); }
+    for (let k = 0; k < n; k++) this.b(ids[k], ids[(k + 1) % n], dbl.has(k) ? 2 : 1, 'ring', dbl.has(k) ? [cx, cy] : null);
+    if (o.circle) this.C.push({ x: cx, y: cy, r: R * .45 });
+    this.R.push({ cx, cy, R, rot, n, ids });
+    return ids;
+  }
+  sub(p, ang, t, L = 1.05, sg = 1) {
+    const A = this.A[p], r = ang * Math.PI / 180;
+    const id = this.a(t.l, A.x + L * Math.cos(r), A.y + L * Math.sin(r), t.l === 'Br' || t.l === 'Cl' ? 'hal' : '');
+    this.b(p, id, t.o || 1, '');
+    const k = t.k || [];
+    if (k.length === 1) this.sub(id, ang + sg * 58, k[0], L, -sg);
+    else if (k.length === 2) { this.sub(id, ang - 48, k[0], L * .95, sg); this.sub(id, ang + 48, k[1], L * .95, sg); }
+    else if (k.length === 3) [-62, 0, 62].forEach((d, i) => this.sub(id, ang + d, k[i], L * .85, sg));
+    return id;
+  }
+  row(labels, orders, x0 = 0, y = 0, step = 1.25) {
+    const ids = labels.map((l, i) => this.a(l, x0 + i * step, y));
+    for (let i = 0; i < ids.length - 1; i++) this.b(ids[i], ids[i + 1], orders ? orders[i] : 1);
+    return ids;
+  }
+  br(p, dir, labels, orders, v = .95) {
+    const sg = dir === 'up' ? 1 : -1, A = this.A[p]; let prev = p; const ids = [];
+    labels.forEach((l, i) => { const n = this.a(l, A.x, A.y + sg * v * (i + 1)); this.b(prev, n, orders ? orders[i] : 1); prev = n; ids.push(n); });
+    return ids;
+  }
+  ringNums(ri, locFn, frac = .74) {
+    const r = this.R[ri];
+    for (let k = 0; k < r.n; k++) { const v = locFn(k); if (v == null) continue; const t = (r.rot - 360 / r.n * k) * Math.PI / 180; this.G.push({ x: r.cx + r.R * frac * Math.cos(t), y: r.cy + r.R * frac * Math.sin(t), t: String(v), c: 'num' }); }
+  }
+  chainNums(ids) {
+    ids.forEach((id, i) => {
+      const A = this.A[id]; let up = false, dn = false;
+      this.B.forEach(b => { const o = b.i === id ? b.j : b.j === id ? b.i : -1; if (o < 0 || ids.includes(o)) return; const dy = this.A[o].y - A.y; if (dy > .3) up = true; if (dy < -.3) dn = true; });
+      this.G.push({ x: A.x, y: A.y + (up ? -.5 : .5), t: String(i + 1), c: 'num' });
+    });
+  }
+  dim(a) { if (!a.l) return { w: 0, h: 0 }; let w = 0; for (const ch of a.l) w += /\d/.test(ch) ? 6.5 : 10; return { w: Math.max(w, 12), h: 17 }; }
+  tsp(l) {
+    const segs = []; for (const ch of l) { const s = /\d/.test(ch); if (segs.length && segs[segs.length - 1].s === s) segs[segs.length - 1].t += ch; else segs.push({ s, t: ch }); }
+    return segs.map((g, i) => { const prev = i ? segs[i - 1].s : false; if (g.s) return `<tspan font-size="10.5" dy="4">${g.t}</tspan>`; return `<tspan${prev ? ' dy="-4"' : ''}>${g.t}</tspan>`; }).join('');
+  }
+  svg(o = {}) {
+    const pad = 20; let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    const ext = (x, y) => { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); };
+    this.A.forEach(a => { const { w, h } = this.dim(a), X = a.x * U, Y = -a.y * U; ext(X - w / 2, Y - h / 2); ext(X + w / 2, Y + h / 2); });
+    this.G.forEach(g => ext(g.x * U - 8, -g.y * U - 8)); this.G.forEach(g => ext(g.x * U + 8, -g.y * U + 8));
+    this.C.forEach(c => { ext(c.x * U - c.r * U, -c.y * U - c.r * U); ext(c.x * U + c.r * U, -c.y * U + c.r * U); });
+    x0 -= pad; y0 -= pad; x1 += pad; y1 += pad;
+    const W = x1 - x0, H = y1 - y0, out = [];
+    const P = id => ({ x: this.A[id].x * U, y: -this.A[id].y * U });
+    const clip = (id, ux, uy) => { const a = this.A[id]; if (!a.l) return 0; const { w, h } = this.dim(a); const tx = ux ? (w / 2 + 3) / Math.abs(ux) : 1e9, ty = uy ? (h / 2 + 2) / Math.abs(uy) : 1e9; return Math.min(tx, ty); };
+    const mainPairs = new Set(); for (let i = 0; i < this.main.length - 1; i++) mainPairs.add(this.main[i] + '-' + this.main[i + 1]), mainPairs.add(this.main[i + 1] + '-' + this.main[i]);
+    this.C.forEach(c => out.push(`<circle class="ar" cx="${(c.x * U).toFixed(1)}" cy="${(-c.y * U).toFixed(1)}" r="${(c.r * U).toFixed(1)}"/>`));
+    this.B.forEach((b, bi) => {
+      const p = P(b.i), q = P(b.j); let dx = q.x - p.x, dy = q.y - p.y; const L = Math.hypot(dx, dy); if (!L) return; const ux = dx / L, uy = dy / L;
+      const c1 = clip(b.i, ux, uy), c2 = clip(b.j, ux, uy);
+      const ax = p.x + ux * c1, ay = p.y + uy * c1, bx = q.x - ux * c2, by = q.y - uy * c2;
+      const cl = b.cls === 'ring' ? 'rb' : mainPairs.has(b.i + '-' + b.j) ? 'mb' : 'bb', nx = -uy, ny = ux;
+      if (b.o === 1) out.push(`<line class="${cl}" x1="${ax.toFixed(1)}" y1="${ay.toFixed(1)}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}"/>`);
+      else if (b.ctr) {
+        out.push(`<line class="${cl}" x1="${ax.toFixed(1)}" y1="${ay.toFixed(1)}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}"/>`);
+        const mx = (p.x + q.x) / 2, my = (p.y + q.y) / 2, cx = b.ctr[0] * U, cy = -b.ctr[1] * U; let sx = Math.sign((cx - mx) * nx + (cy - my) * ny) * 7.4;
+        const sh = L * .17; out.push(`<line class="${cl}" x1="${(p.x + ux * sh + nx * sx).toFixed(1)}" y1="${(p.y + uy * sh + ny * sx).toFixed(1)}" x2="${(q.x - ux * sh + nx * sx).toFixed(1)}" y2="${(q.y - uy * sh + ny * sx).toFixed(1)}"/>`);
+      } else {
+        const offs = b.o === 2 ? [-2.7, 2.7] : [-4.6, 0, 4.6];
+        offs.forEach(f => out.push(`<line class="${cl}" x1="${(ax + nx * f).toFixed(1)}" y1="${(ay + ny * f).toFixed(1)}" x2="${(bx + nx * f).toFixed(1)}" y2="${(by + ny * f).toFixed(1)}"/>`));
+      }
+      if (o.hits && b.cls === 'ring') out.push(`<line class="hitb" data-bd="${o.hits.bondOf ? o.hits.bondOf(bi) : bi}" x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${q.x.toFixed(1)}" y2="${q.y.toFixed(1)}"/>`);
+    });
+    const mainSet = new Set(this.main);
+    this.A.forEach((a, i) => { if (!a.l) return; const cl = a.cls === 'hal' ? 't-hal' : (mainSet.has(i) ? 't-main' : ''); out.push(`<text class="${cl}" x="${(a.x * U).toFixed(1)}" y="${(-a.y * U).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${this.tsp(a.l)}</text>`); });
+    this.G.forEach(g => out.push(`<text class="${g.c}${g.c === 'greek' ? '' : ''}" ${g.fill ? `style="fill:${g.fill}"` : ''} x="${(g.x * U).toFixed(1)}" y="${(-g.y * U).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${g.t}</text>`));
+    if (o.hits) this.R[0].ids.forEach((id, k) => { const p = P(id); out.push(`<circle class="hit" data-k="${k}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="15"><title>Vértice ${k + 1}: clic para colocar o quitar</title></circle>`); });
+    const sc = o.scale || 1;
+    return `<svg class="mol" xmlns="http://www.w3.org/2000/svg" viewBox="${x0.toFixed(0)} ${y0.toFixed(0)} ${W.toFixed(0)} ${H.toFixed(0)}" width="${Math.round(W * sc)}" role="img" aria-label="${(o.label || 'Estructura química').replace(/"/g, '')}">${out.join('')}</svg>`;
+  }
+}
+
+/* anillo con sustituyentes: subs = [{p,key}] */
+function ringFig(spec, o = {}) {
+  const f = new Fig(), n = spec.n, rot = o.rot == null ? 90 : o.rot, R = o.R || (spec.arom ? 1.05 : 1);
+  const ids = f.poly(0, 0, n, rot, R, { dbl: spec.arom ? [] : (spec.dbl || []), circle: !!spec.arom, lab: o.lab });
+  const byP = {}; (spec.subs || []).forEach(s => (byP[s.p] = byP[s.p] || []).push(s));
+  Object.keys(byP).forEach(p => { const list = byP[p], base = rot - 360 / n * p; list.forEach((s, i) => { const off = list.length === 1 ? 0 : (i === 0 ? -38 : 38); f.sub(ids[p], base + off, SUBS[s.key].tree); }); });
+  if (o.nums) f.ringNums(0, k => o.nums[k], spec.arom ? .77 : .66);
+  f.main = [];
+  return f;
+}
+const fig = (f, o) => f.svg(o);
+const figure = (svg, cap) => `<figure class="fig" style="margin:0">${svg}<figcaption>${cap || ''}</figcaption></figure>`;
+
+/* naftaleno / antraceno / fenantreno */
+function fusedFig(centers, R = .8, o = {}) {
+  const f = new Fig(), key = (x, y) => Math.round(x * 100) + ',' + Math.round(y * 100), vid = {}, seen = new Set();
+  const w = Math.sqrt(3) * R;
+  const verts = [];
+  centers.forEach(([cx, cy]) => { const ids = []; for (let k = 0; k < 6; k++) { const t = (90 - 60 * k) * Math.PI / 180, x = cx + R * Math.cos(t), y = cy + R * Math.sin(t), kk = key(x, y); if (!(kk in vid)) vid[kk] = f.a('', x, y, 'ring'); ids.push(vid[kk]); } verts.push(ids);
+    ids.forEach((id, k) => { const j = ids[(k + 1) % 6], pk = Math.min(id, j) + '-' + Math.max(id, j); if (!seen.has(pk)) { seen.add(pk); f.b(id, j, 1, 'ring'); } }); f.C.push({ x: cx, y: cy, r: R * .5 }); });
+  f.rings = verts; f.vid = vid; return f;
+}
+function naphFig(o = {}) {
+  const R = .8, w = Math.sqrt(3) * R / 2, f = fusedFig([[w, 0], [-w, 0]], R), pos = {};
+  const vv = (cx, ang) => [cx + R * Math.cos(ang * Math.PI / 180), R * Math.sin(ang * Math.PI / 180)];
+  const P = { 1: vv(w, 90), 2: vv(w, 30), 3: vv(w, -30), 4: vv(w, -90), 5: vv(-w, -90), 6: vv(-w, -150), 7: vv(-w, 150), 8: vv(-w, 90) };
+  f.P = P;
+  const cen = k => (k <= 4 ? [w, 0] : [-w, 0]);
+  for (let k = 1; k <= 8; k++) {
+    const [x, y] = P[k], c = cen(k), dx = x - c[0], dy = y - c[1], d = Math.hypot(dx, dy), alpha = [1, 4, 5, 8].includes(k);
+    const sh = o.greek ? (alpha ? 'α' : 'β') : String(k);
+    f.G.push({ x: x + dx / d * .34, y: y + dy / d * .34, t: sh, c: o.greek ? 'greek' : 'num', fill: o.greek ? (alpha ? 'var(--orange)' : 'var(--purple)') : null, k });
+  }
+  (o.subs || []).forEach(([k, ang, t]) => { const [x, y] = P[k]; const id = f.a(t.l, x + .9 * Math.cos(ang * Math.PI / 180), y + .9 * Math.sin(ang * Math.PI / 180), t.l === 'Cl' ? 'hal' : ''); const near = Object.entries(f.vid).find(([kk, v]) => { const [a, b] = kk.split(',').map(Number); return Math.abs(a / 100 - x) < .02 && Math.abs(b / 100 - y) < .02; }); f.b(near[1], id, 1, ''); });
+  return f;
+}
+
+/* =====================================================================
+   2. MOTOR DE NOMENCLATURA
+   ===================================================================== */
+const STEM = ['', '', '', 'prop', 'but', 'pent', 'hex', 'hept', 'oct', 'non', 'dec'];
+const MULT = ['', '', 'di', 'tri', 'tetra', 'penta', 'hexa'];
+const cmpArr = (a, b) => { const L = Math.min(a.length, b.length); for (let i = 0; i < L; i++) if (a[i] !== b[i]) return a[i] - b[i]; return a.length - b.length; };
+const cmpKeys = (A, B) => { for (let i = 0; i < A.length; i++) { const c = cmpArr(A[i], B[i]); if (c) return c; } return 0; };
+const num = (a, b) => a - b;
+function groups(list, loc) {
+  const m = new Map();
+  list.forEach(s => { if (!m.has(s.key)) m.set(s.key, []); m.get(s.key).push(loc(s.p)); });
+  return [...m.entries()].sort((a, b) => sk(a[0]).localeCompare(sk(b[0]), 'es')).map(([key, ls]) => ({ key, ls: ls.sort(num) }));
+}
+function gstr(gs, noLoc) {
+  return gs.map(g => { const nm = SUBS[g.key].d, mu = g.ls.length > 1 ? MULT[g.ls.length] : '', nn = g.ls.length > 1 && nm.startsWith('tert') ? '-' + nm : nm; return (noLoc ? '' : g.ls.join(',') + '-') + mu + nn; }).join('-');
+}
+function analyze(spec, force) {
+  const n = spec.n, subs = spec.subs || [], dbl = spec.dbl || [], arom = !!spec.arom;
+  const mc = arom ? subs.filter(s => s.key === 'metil').length : 0;
+  let mode = !arom ? 'alq' : mc === 1 ? 'tol' : mc === 2 ? 'xil' : 'ben'; if (force) mode = force;
+  const cands = [];
+  for (let s = 0; s < n; s++) for (const d of [1, -1]) {
+    const loc = p => (((p - s) * d) % n + n) % n + 1;
+    const dl = []; let ok = true;
+    if (!arom) for (const b of dbl) { const a = loc(b), c = loc((b + 1) % n); if (Math.abs(a - c) !== 1) { ok = false; break; } dl.push(Math.min(a, c)); }
+    if (!ok) continue; dl.sort(num);
+    const metil = (mode === 'tol' || mode === 'xil') ? subs.filter(x => x.key === 'metil') : [];
+    const ot = (mode === 'tol' || mode === 'xil') ? subs.filter(x => x.key !== 'metil') : subs;
+    if (mode === 'tol' && loc(metil[0].p) !== 1) continue;
+    const gsAll = groups(subs, loc), gsOt = groups(ot, loc), key = [dl];
+    if (mode === 'xil') key.push(metil.map(x => loc(x.p)).sort(num), ot.map(x => loc(x.p)).sort(num), gsOt.flatMap(g => g.ls));
+    else if (mode === 'tol') key.push(ot.map(x => loc(x.p)).sort(num), gsOt.flatMap(g => g.ls));
+    else key.push(subs.map(x => loc(x.p)).sort(num), gsAll.flatMap(g => g.ls));
+    cands.push({ s, d, loc, key, dl, gsAll, gsOt, metil, set: (mode === 'tol' || mode === 'xil' ? ot : subs).map(x => loc(x.p)).sort(num) });
+  }
+  cands.sort((a, b) => cmpKeys(a.key, b.key));
+  const best = cands[0];
+  const fmt = (c, o = {}) => {
+    const noLoc = subs.length === 1 && dbl.length === 0 && !(arom && mode === 'tol' && false);
+    let gs = (mode === 'tol' || mode === 'xil') ? c.gsOt : c.gsAll; if (o.reverse) gs = [...gs].reverse();
+    const pre = gstr(gs, noLoc && mode !== 'xil');
+    if (arom) {
+      if (mode === 'tol') return pre + 'tolueno';
+      if (mode === 'xil') return (pre ? pre + '-' : '') + c.metil.map(x => c.loc(x.p)).sort(num).join(',') + '-xileno';
+      return pre + 'benceno';
+    }
+    const st = STEM[n] || '?', nd = dbl.length;
+    let base = 'ciclo' + st + (nd === 0 ? 'ano' : nd === 1 ? 'eno' : 'a-' + c.dl.join(',') + '-' + MULT[nd] + 'eno');
+    if (nd >= 2) base = 'ciclo' + st + 'a-' + c.dl.join(',') + '-' + (nd === 2 ? 'dieno' : 'trieno');
+    return pre + base;
+  };
+  const res = { spec, mode, cands, best, name: fmt(best), fmt, loc: best ? Array.from({ length: n }, (_, p) => best.loc(p)) : [] };
+  return res;
+}
+const setStr = a => '{' + a.join(', ') + '}';
+function stepsFor(res) {
+  const { spec, mode, cands, best } = res, subs = spec.subs || [], out = [];
+  const nm = k => SUBS[k].d;
+  const list = [...new Set(subs.map(s => nm(s.key)))].join(', ') || 'ninguno';
+  if (spec.arom) out.push(['Identifica el anillo', `Es un anillo <b>aromático</b> (benceno). Sustituyentes: <b>${list}</b>.` + (mode === 'tol' ? ' Hay un <b>CH<sub>3</sub></b>: la base es <b>tolueno</b> y ese carbono es el número 1.' : mode === 'xil' ? ' Hay <b>dos CH<sub>3</sub></b>: la base es <b>xileno</b> (dimetilbenceno).' : subs.length ? ' No hay metilos: la base es <b>benceno</b>.' : '')]);
+  else out.push(['Identifica el anillo', `Anillo de <b>${spec.n} carbonos</b> → <b>ciclo${STEM[spec.n]}</b>` + ((spec.dbl || []).length ? ` con <b>${spec.dbl.length} doble${spec.dbl.length > 1 ? 's' : ''} enlace${spec.dbl.length > 1 ? 's' : ''}</b>.` : ' (solo enlaces simples).') + ` Ramas: <b>${list}</b>.`]);
+  if (!subs.length) { out.push(['Nombre', `Sin ramas: <b>${res.name}</b>.`]); return out; }
+  if (subs.length === 1 && !(spec.dbl || []).length) { out.push(['Numeración', 'Con <b>un solo sustituyente</b> no se numera el anillo.']); out.push(['Nombre', `<b>${res.name}</b>`]); return out; }
+  if ((spec.dbl || []).length) { const ds = [...new Set(cands.map(c => c.dl.join(',')))]; out.push(['Los dobles enlaces mandan', `Se numera para dar a los dobles enlaces los <b>números más bajos</b> (antes que a las ramas): ${ds.length > 1 ? 'opciones ' + ds.map(x => '<code>' + x + '</code>').join(' / ') + ' → gana <b>' + best.dl.join(',') + '</b>.' : '<b>' + best.dl.join(',') + '</b>.'}`]); }
+  const uniq = []; cands.forEach(c => { const k = c.set.join(',') + '|' + c.dl.join(','); if (!uniq.find(u => u.k === k)) uniq.push({ k, c }); });
+  if (uniq.length > 1) {
+    const [a, b] = uniq; out.push(['Compara los números de las ramas', `Hay varias formas de numerar. Las mejores dan <b>${setStr(a.c.set)}</b> y <b>${setStr(b.c.set)}</b>. Gana el conjunto cuyo <b>primer número diferente es menor</b>: <b>${setStr(a.c.set)}</b>.`]);
+  } else out.push(['Compara los números de las ramas', `Todas las formas de numerar dan el mismo conjunto <b>${setStr(best.set)}</b>.`]);
+  const tie = cands.filter(c => cmpArr(c.key[0], best.key[0]) === 0 && cmpArr(c.key[1], best.key[1]) === 0 && (mode === 'tol' || mode === 'xil' ? cmpArr(c.key[2], best.key[2]) === 0 : true));
+  const alts = new Set(tie.map(c => c.key[c.key.length - 1].join(',')));
+  if (alts.size > 1) out.push(['Empate → orden alfabético', 'Hay empate de números: el <b>primer sustituyente en orden alfabético</b> recibe el número más bajo. Recuerda: <i>di-, tri-, tert-</i> no cuentan; <i>iso-</i> sí.']);
+  else if (new Set(best.gsAll.map(g => g.key)).size > 1) out.push(['Escribe en orden alfabético', 'Las ramas se escriben en <b>orden alfabético</b>, cada una con su número: ' + (mode === 'tol' || mode === 'xil' ? best.gsOt : best.gsAll).map(g => SUBS[g.key].d).join(' → ') + '.']);
+  out.push(['Nombre final', `<span class="namebig">${res.name}</span>`]);
+  return out;
+}
+/* distractores plausibles */
+function distract(res, k = 3, r = Math.random) {
+  const { spec, cands, best, fmt, name } = res, pool = new Set();
+  cands.forEach(c => pool.add(fmt(c)));
+  pool.add(fmt(best, { reverse: true }));
+  if (spec.arom && res.mode !== 'ben') { const g = analyze(spec, 'ben'); pool.add(g.name); }
+  if (!spec.arom) { const s2 = Object.assign({}, spec, { n: spec.n === 6 ? 5 : spec.n + 1, dbl: [] }); try { pool.add(analyze(s2).name); } catch (e) {} }
+  const alt = { metil: 'etil', etil: 'metil', cloro: 'bromo', bromo: 'cloro', propil: 'isopropil', isopropil: 'propil', nitro: 'cloro', 'tert-butil': 'isopropil' };
+  (spec.subs || []).forEach((s, i) => { const subs2 = spec.subs.map((x, j) => j === i ? { p: x.p, key: alt[x.key] } : x); pool.add(analyze(Object.assign({}, spec, { subs: subs2 })).name); });
+  pool.delete(name);
+  return shuffle([...pool], r).slice(0, k);
+}
+function mcFrom(res, seed) {
+  const r = seed == null ? Math.random : seeded(seed), d = distract(res, 4, r);
+  const opts = shuffle([res.name, ...d.slice(0, 4)], r);
+  return { opts, ans: opts.indexOf(res.name) };
+}
+
+/* =====================================================================
+   3. COMPONENTES REUTILIZABLES
+   ===================================================================== */
+const R_ = {};                           // registro de acciones
+function stepsHTML(arr, from = 0) { return arr.map((s, i) => `<div class="step"><div class="n">${i + 1 + from}</div><div class="b"><h4>${s[0]}</h4><div>${s[1]}</div></div></div>`).join(''); }
+/* bloque de opción múltiple: devuelve nodo */
+function mcBlock({ opts, ans, onDone, key, pts = 10, html = false, after }) {
+  const w = document.createElement('div');
+  w.innerHTML = `<div class="opts" role="group" aria-label="Alternativas">${opts.map((o, i) => `<button type="button" class="opt" data-i="${i}"><b>${LET[i]}</b><span>${html ? o : String(o)}</span></button>`).join('')}</div><div class="fbx" aria-live="polite"></div>`;
+  let done = false;
+  w.addEventListener('click', e => {
+    const b = e.target.closest('.opt'); if (!b || done) return; done = true;
+    const i = +b.dataset.i, ok = i === ans;
+    $$('.opt', w).forEach((x, j) => { x.disabled = true; if (j === ans) x.classList.add('ok'); else if (j === i) x.classList.add('bad'); });
+    $('.fbx', w).innerHTML = ok ? `<div class="fb ok">✔ ¡Correcto! Respuesta ${LET[ans]}.</div>` : `<div class="fb bad">✘ No es esa. La correcta es la ${LET[ans]}. Mira el paso a paso.</div>`;
+    if (ok) { if (award(key, pts)) { confetti(); toast('+' + pts + ' ⭐'); } }
+    if (onDone) onDone(ok, i);
+  });
+  return w;
+}
+/* revelador paso a paso */
+function stepper(steps) {
+  const w = document.createElement('div'); let shown = 0;
+  w.innerHTML = `<div class="ctrl"><button type="button" class="btn primary sm" data-a="nx">Mostrar paso 1 ▸</button><button type="button" class="btn sm" data-a="all">Ver todo</button><button type="button" class="btn ghost sm" data-a="rs">Reiniciar</button></div><div class="sp"></div>`;
+  const sp = $('.sp', w), nx = $('[data-a=nx]', w);
+  const upd = () => { sp.innerHTML = stepsHTML(steps.slice(0, shown)); nx.disabled = shown >= steps.length; nx.textContent = shown >= steps.length ? 'Completo ✔' : `Mostrar paso ${shown + 1} ▸`; };
+  w.addEventListener('click', e => { const a = e.target.closest('[data-a]'); if (!a) return; if (a.dataset.a === 'nx') shown = Math.min(steps.length, shown + 1); if (a.dataset.a === 'all') shown = steps.length; if (a.dataset.a === 'rs') shown = 0; upd(); });
+  upd(); w.showAll = () => { shown = steps.length; upd(); };
+  return w;
+}
+function el(html) { const t = document.createElement('div'); t.innerHTML = html.trim(); return t.firstElementChild; }
+
+/* ---------- Constructor interactivo de anillos ---------- */
+function RingPicker(root, opt = {}) {
+  const st = { n: opt.n || 6, arom: !!opt.arom, sub: [], dbl: [], pal: (opt.palette || ['metil'])[0] };
+  (opt.init || []).forEach(s => st.sub[s.p] = s.key); (opt.dbl || []).forEach(b => st.dbl.push(b));
+  const pal = opt.palette || ['metil', 'etil', 'propil', 'isopropil', 'tert-butil', 'bromo', 'cloro', 'nitro'];
+  root.innerHTML = `
+    <div class="ctrl">
+      ${opt.types ? `<label>Anillo <select data-c="arom"><option value="0">Alicíclico (ciclo-)</option><option value="1">Benceno (aromático)</option></select></label>` : ''}
+      ${opt.sizes ? `<label>Carbonos <select data-c="n">${[3, 4, 5, 6, 7, 8].map(n => `<option ${n === st.n ? 'selected' : ''}>${n}</option>`).join('')}</select></label>` : ''}
+      <button type="button" class="btn sm" data-c="clear">Limpiar</button>
+      ${opt.random ? `<button type="button" class="btn sm" data-c="rand">🎲 Ejemplo al azar</button>` : ''}
+    </div>
+    <div class="chips" role="group" aria-label="Sustituyente a colocar">${pal.map((p, i) => `<button type="button" class="chip" data-p="${p}" aria-pressed="${i === 0}">${SUBS[p].d}</button>`).join('')}</div>
+    <p class="small mut" data-c="hint"></p>
+    <div class="figrow"><div data-c="fig"></div></div>
+    <div data-c="out"></div>`;
+  const $f = $('[data-c=fig]', root), $o = $('[data-c=out]', root), $h = $('[data-c=hint]', root);
+  const spec = () => ({ n: st.n, arom: st.arom, subs: st.sub.map((key, p) => key ? { p, key } : null).filter(Boolean), dbl: st.arom ? [] : st.dbl });
+  function draw() {
+    const sp = spec(), res = analyze(sp), nums = {}; if (res.best && sp.subs.length) res.loc.forEach((v, k) => nums[k] = v);
+    const f = ringFig(sp, { nums: sp.subs.length || sp.dbl.length ? nums : null, R: st.arom ? 1.05 : 1.3 });
+    $f.innerHTML = f.svg({ hits: { bondOf: bi => (bi < st.n ? bi : bi), }, label: 'Anillo editable. ' + res.name });
+    $h.textContent = st.arom ? 'Haz clic en un vértice del anillo para colocar el sustituyente elegido (otro clic lo quita).' : 'Clic en un vértice: coloca/quita el sustituyente. Clic sobre un enlace: lo vuelve doble (o simple).';
+    $o.innerHTML = `<div class="box info"><b>Nombre IUPAC</b><div class="namebig" id="nm">${res.name}</div></div><details open><summary>Paso a paso de este nombre</summary><div>${stepsHTML(stepsFor(res))}</div></details>`;
+    if (opt.onChange) opt.onChange(sp, res, $o);
+  }
+  root.addEventListener('click', e => {
+    const hit = e.target.closest('.hit'), hb = e.target.closest('.hitb'), chip = e.target.closest('.chip'), c = e.target.closest('[data-c]');
+    if (hit) { const k = +hit.dataset.k; st.sub[k] = st.sub[k] === st.pal ? null : st.pal; draw(); }
+    else if (hb && !st.arom) { const b = +hb.dataset.bd; const i = st.dbl.indexOf(b); if (i >= 0) st.dbl.splice(i, 1); else if (!st.dbl.some(x => x === (b + 1) % st.n || (x + 1) % st.n === b)) st.dbl.push(b); else toast('Dos dobles enlaces no pueden compartir carbono'); draw(); }
+    else if (chip) { st.pal = chip.dataset.p; $$('.chip', root).forEach(x => x.setAttribute('aria-pressed', x === chip)); }
+    else if (c && c.dataset.c === 'clear') { st.sub = []; st.dbl = []; draw(); }
+    else if (c && c.dataset.c === 'rand') { const r = genRandom(2); st.n = r.spec.n; st.arom = r.spec.arom; st.sub = []; r.spec.subs.forEach(s => st.sub[s.p] = s.key); st.dbl = r.spec.dbl || []; const s1 = $('[data-c=n]', root), s2 = $('[data-c=arom]', root); if (s1) s1.value = st.n; if (s2) s2.value = st.arom ? 1 : 0; draw(); }
+  });
+  root.addEventListener('change', e => { const c = e.target.dataset.c; if (c === 'n') { st.n = +e.target.value; st.sub = []; st.dbl = []; draw(); } if (c === 'arom') { st.arom = e.target.value === '1'; if (st.arom) { st.n = 6; const s = $('[data-c=n]', root); if (s) s.value = 6; } st.sub = []; st.dbl = []; draw(); } });
+  draw(); return { draw, st };
+}
+
+/* generador de moléculas al azar */
+function genRandom(level = 1, r = Math.random) {
+  for (let tries = 0; tries < 200; tries++) {
+    let arom = false, n = pick([5, 6], r), dbl = [], pool = ['metil', 'etil', 'propil', 'isopropil', 'cloro', 'bromo'], k = 2;
+    if (level >= 2) { arom = r() < .5; k = 3; if (arom) { n = 6; pool = ['metil', 'etil', 'propil', 'isopropil', 'cloro', 'bromo', 'nitro']; } }
+    if (level >= 3) {
+      arom = r() < .45; if (arom) { n = 6; pool = ['etil', 'propil', 'cloro', 'bromo', 'nitro']; k = 2; }
+      else { k = 2; const b = Math.floor(r() * n); dbl = r() < .5 ? [b] : [b, (b + 2) % n]; }
+    }
+    const pos = shuffle([...Array(n).keys()], r).slice(0, k + (arom && level >= 3 ? 1 : 0)); const subs = pos.map(p => ({ p, key: pick(pool, r) }));
+    if (arom && level >= 3) { subs[0].key = 'metil'; if (r() < .35) subs[1].key = 'metil'; }
+    if (!arom && level >= 3 && dbl.length === 2 && n === 5 && false) continue;
+    const spec = { n, arom, subs, dbl }, res = analyze(spec);
+    if (!res.best) continue;
+    if (new Set(distract(res, 4, r)).size < 3) continue;
+    return { spec, res };
+  }
+}
+</script>
+<script>
+/* =====================================================================
+   4. CONTENIDO: TEORÍA
+   ===================================================================== */
+const SECTIONS = [];
+const add = (g, id, title, sub, render) => SECTIONS.push({ g, id, title, sub, render });
+
+/* ---- T1 Mapa ---- */
+add('Teoría', 't1', '1. Mapa general', 'Hidrocarburos: compuestos formados solo por carbono (C) e hidrógeno (H)', root => {
+  const N = {
+    hc: ['Hidrocarburos', 'Compuestos orgánicos formados <b>solo por C e H</b>. Se clasifican según la forma de su esqueleto de carbonos: cadena abierta o anillo.', () => `<div class="figrow"><div class="fig">${(() => { const f = new Fig(); const r = f.row(['H3C', 'CH2', 'CH3']); return f.svg({ label: 'propano' }); })()}<div class="cap">cadena abierta</div></div><div class="fig">${ringFig({ n: 6, subs: [], dbl: [] }).svg({ label: 'ciclohexano' })}<div class="cap">anillo</div></div></div>`],
+    ac: ['Acíclicos', 'Cadena <b>abierta</b>: alcanos (C–C), alquenos (C=C) y alquinos (C≡C). Es el Tema 2.', null],
+    ci: ['Cíclicos', 'Los carbonos se cierran formando un <b>anillo</b>. Pueden ser <b>alicíclicos</b> o <b>aromáticos</b>.', null],
+    al: ['Alicíclicos', 'Anillos que se comportan como cadenas abiertas: <b>cicloalcanos</b> (C<sub>n</sub>H<sub>2n</sub>), <b>cicloalquenos</b> y <b>cicloalquinos</b>. Se nombran con el prefijo <b>ciclo-</b>.', () => `<div class="figrow"><div class="fig">${ringFig({ n: 5, subs: [{ p: 0, key: 'metil' }], dbl: [] }).svg({ label: 'metilciclopentano' })}<div class="cap">metilciclopentano</div></div><div class="fig">${ringFig({ n: 6, subs: [], dbl: [0] }).svg({ label: 'ciclohexeno' })}<div class="cap">ciclohexeno</div></div></div>`],
+    ar: ['Aromáticos', 'Derivan del <b>benceno</b> (C<sub>6</sub>H<sub>6</sub>): anillo plano con <b>6 electrones π deslocalizados</b>. Son muy estables y prefieren <b>sustituir</b> en vez de adicionar.', () => `<div class="figrow"><div class="fig">${ringFig({ n: 6, arom: true, subs: [] }).svg({ label: 'benceno' })}<div class="cap">benceno</div></div><div class="fig">${naphFig().svg({ label: 'naftaleno' })}<div class="cap">naftaleno</div></div></div>`]
+  };
+  root.innerHTML = `<p>Toca cada casilla del árbol para ver qué significa y cómo se dibuja.</p>
+  <div class="tree" role="group" aria-label="Árbol de clasificación">
+    <div class="trow"><button class="node on" data-n="hc" type="button">Hidrocarburos (C e H)</button></div><div class="arrow">↓</div>
+    <div class="trow"><button class="node" data-n="ac" type="button">Acíclicos (cadena abierta)</button><button class="node c1" data-n="ci" type="button">Cíclicos (anillos)</button></div><div class="arrow">↓ (cíclicos)</div>
+    <div class="trow"><button class="node c2" data-n="al" type="button">Alicíclicos</button><button class="node c2" data-n="ar" type="button">Aromáticos</button></div>
+  </div>
+  <div class="box info" id="ninfo" aria-live="polite"></div>
+  <div class="box ess"><b>Lo esencial</b>Cíclicos = alicíclicos (se parecen a las cadenas abiertas) + aromáticos (benceno y derivados, anillos estables con electrones π deslocalizados).</div>
+  <div class="box warn"><b>Ojo con esto</b>Ciclohexano (alicíclico, saturado) y benceno (aromático) tienen ambos 6 carbonos, pero <b>reaccionan distinto</b>: el benceno no se rompe fácilmente.</div>`;
+  const show = k => { $$('.node', root).forEach(x => x.classList.toggle('on', x.dataset.n === k)); const [t, d, f] = N[k]; $('#ninfo', root).innerHTML = `<b>${t}</b>${d}${f ? f() : ''}`; };
+  root.addEventListener('click', e => { const n = e.target.closest('.node'); if (n) show(n.dataset.n); }); show('hc');
+});
+
+/* ---- T2 Alicíclicos ---- */
+add('Teoría', 't2', '2. Hidrocarburos alicíclicos', 'Cicloalcanos, cicloalquenos y cicloalquinos', root => {
+  root.innerHTML = `<p>Un <b>alicíclico</b> se forma al cerrar una cadena de carbonos. Se nombra con <span class="tag p">ciclo-</span> + nombre del alcano / alqueno / alquino.</p>
+  <div class="grid g3">
+    <div class="tile"><h3>Cicloalcano</h3><div class="formula">C<sub>n</sub>H<sub>2n</sub></div><p class="small mut">Solo enlaces simples.</p></div>
+    <div class="tile"><h3>Cicloalqueno</h3><div class="formula">C<sub>n</sub>H<sub>2n−2</sub></div><p class="small mut">Un doble enlace (cada doble extra: −2 H).</p></div>
+    <div class="tile"><h3>Cicloalquino</h3><div class="formula">C<sub>n</sub>H<sub>2n−4</sub></div><p class="small mut">Un triple enlace.</p></div>
+  </div>
+  <h3 style="margin:22px 0 8px">🧪 Calculadora de fórmulas</h3>
+  <div class="ctrl"><label>Tipo <select id="ctype"><option value="0">cicloalcano</option><option value="1">cicloalqueno (1 doble)</option><option value="2">cicloalcadieno (2 dobles)</option><option value="3">cicloalquino (1 triple)</option></select></label>
+  <label>Carbonos <input id="cn" type="range" min="3" max="10" value="6"> <b id="cnv">6</b></label></div>
+  <div class="figrow"><div id="cfig"></div><div class="tile" style="min-width:230px"><div class="small mut">Fórmula</div><div class="formula" id="cform"></div><div class="small" id="cwhy"></div></div></div>
+  <h3 style="margin:22px 0 8px">🎯 Mini reto</h3>
+  <div class="tile"><p id="qtxt"></p><div class="ctrl"><input id="qin" type="number" min="1" max="40" aria-label="Respuesta"><button class="btn primary sm" id="qok" type="button">Comprobar</button><button class="btn sm" id="qnew" type="button">Otro</button></div><div id="qfb" aria-live="polite"></div></div>
+  <details><summary>Propiedades y datos útiles</summary><div><p>Son <b>apolares</b>, insolubles en agua y menos densos que ella. El <b>ciclohexano</b> es un buen solvente. Los <b>naftenos</b> del petróleo son cicloalcanos usados en lubricantes. Un cicloalqueno tiene la misma fórmula que un alquino de cadena abierta con igual número de C.</p></div></details>
+  <div class="box ess"><b>Lo esencial</b>Cicloalcano C<sub>n</sub>H<sub>2n</sub>. Cada doble enlace quita 2 H; un triple quita 4 H.</div>`;
+  const draw = () => {
+    const t = +$('#ctype', root).value, n = +$('#cn', root).value; $('#cnv', root).textContent = n;
+    const dbl = t === 1 ? [0] : t === 2 && n >= 5 ? [0, 2] : [], f = ringFig({ n, subs: [], dbl }, { R: n > 6 ? 1.15 : 1 });
+    if (t === 3) f.G.push({ x: 0, y: 0, t: 'C≡C', c: 'greek', fill: 'var(--purple)' });
+    $('#cfig', root).innerHTML = f.svg({ label: 'anillo de ' + n + ' carbonos', scale: 1.5 });
+    const dd = t === 3 ? 4 : t === 2 ? 4 : t === 1 ? 2 : 0, H = 2 * n - dd;
+    $('#cform', root).innerHTML = `C<sub>${n}</sub>H<sub>${H}</sub>`;
+    $('#cwhy', root).innerHTML = `H = 2n − ${dd} = 2·${n} − ${dd} = <b>${H}</b>` + (t === 2 && n < 5 ? '<br><span style="color:var(--orange)">Con menos de 5 C no cabe un dieno conjugado dibujado así; la fórmula sí se calcula igual.</span>' : '');
+  };
+  $('#ctype', root).onchange = draw; $('#cn', root).oninput = draw; draw();
+  let ans = 0;
+  const newQ = () => { const n = 3 + Math.floor(Math.random() * 8), t = Math.floor(Math.random() * 3), dd = [0, 2, 4][t], H = 2 * n - dd, nm = ['un cicloalcano', 'un cicloalqueno (1 doble enlace)', 'un cicloalcadieno'][t]; ans = n; $('#qtxt', root).innerHTML = `${nm[0].toUpperCase() + nm.slice(1)} tiene <b>${H} hidrógenos</b>. ¿Cuántos carbonos tiene?`; $('#qfb', root).innerHTML = ''; $('#qin', root).value = ''; };
+  $('#qok', root).onclick = () => { const v = +$('#qin', root).value; if (!v) return; const ok = v === ans; $('#qfb', root).innerHTML = ok ? `<div class="fb ok">✔ ¡Bien! n = ${ans}.</div>` : `<div class="fb bad">✘ Piensa: H = 2n − (2 por cada doble). Prueba otra vez o mira la calculadora.</div>`; if (ok) { award(null, 2); toast('+2 ⭐'); } };
+  $('#qnew', root).onclick = newQ; newQ();
+});
+
+/* ---- T3 Nomenclatura alicíclicos ---- */
+add('Teoría', 't3', '3. Nomenclatura de alicíclicos', 'Reglas con ejemplos y un entrenador de numeración', root => {
+  root.innerHTML = `<div class="box key"><b>Orden de prioridades al numerar</b>
+  <ol style="margin:4px 0 0 18px;padding:0"><li><b>Dobles / triples enlaces</b> → números más bajos (C1 y C2 son los del doble enlace).</li><li>Luego el <b>menor conjunto de números</b> para las ramas.</li><li>Si aún hay empate: <b>orden alfabético</b> (la 1.ª rama alfabética recibe el número menor).</li></ol></div>
+  <details open><summary>Las 8 reglas (toca para abrir)</summary><div>
+   <ol style="margin:0 0 0 18px;padding:0;line-height:1.7">
+    <li><b>Base:</b> <i>ciclo</i> + nombre del alcano (ciclopentano, ciclohexano…).</li>
+    <li><b>Una sola rama</b> en un cicloalcano: no se numera (<code>metilciclopentano</code>).</li>
+    <li><b>Varias ramas:</b> menor conjunto de números (<code>1,2,4</code> y no <code>1,3,4</code>).</li>
+    <li><b>Empate:</b> alfabético (<code>1-etil-2-metil…</code>). <i>di-, tri-, tert-</i> no cuentan; <i>iso-</i> y <i>ciclo-</i> sí.</li>
+    <li><b>Dos ramas en el mismo carbono:</b> ese carbono es el 1 y se repite el número (<code>1-etil-1-metil…</code>).</li>
+    <li><b>Cicloalqueno:</b> el doble enlace ocupa C1–C2 (no se escribe el “1” en ciclopenteno). Con dos dobles: <code>ciclohexa-1,3-dieno</code>.</li>
+    <li><b>Una rama en un cicloalqueno</b> sí necesita número (<code>3-metilciclohexeno</code>).</li>
+    <li>Si la cadena que sale del anillo es <b>más grande</b> que el anillo, el anillo pasa a ser sustituyente (<i>ciclopropil-</i>, <i>ciclohexil-</i>).</li>
+   </ol></div></details>
+  <h3 style="margin:22px 0 8px">🧭 Entrenador: numera tú el anillo</h3>
+  <p class="small mut">Elige una molécula, toca el vértice donde <b>empiezas</b> a numerar y pulsa “Cambiar sentido” si hace falta. El programa dice si tu numeración es la correcta.</p>
+  <div class="ctrl"><label>Molécula <select id="tm"></select></label><button class="btn sm" id="tdir" type="button">⟲ Cambiar sentido</button><button class="btn sm" id="tbest" type="button">Mostrar la correcta</button></div>
+  <div class="figrow"><div id="tfig"></div></div><div id="tout" aria-live="polite"></div>
+  <div class="box ess"><b>Lo esencial</b>1.º enlaces múltiples · 2.º menor conjunto de números · 3.º alfabético. Siempre en ese orden.</div>
+  <div class="box warn"><b>Ojo con esto</b>Numerar las ramas antes que el doble enlace, o contar “tert” y “di” al ordenar alfabéticamente, son los errores más frecuentes.</div>`;
+  const EX = [
+    ['1,2,4-trimetilciclohexano (3 metilos)', { n: 6, subs: [{ p: 0, key: 'metil' }, { p: 2, key: 'metil' }, { p: 3, key: 'metil' }], dbl: [] }],
+    ['Etil y metil opuestos (1,4)', { n: 6, subs: [{ p: 1, key: 'metil' }, { p: 4, key: 'etil' }], dbl: [] }],
+    ['Cicloalqueno con bromo y metilo', { n: 5, subs: [{ p: 4, key: 'bromo' }, { p: 0, key: 'metil' }], dbl: [2] }],
+    ['Ciclopentadieno con etilo y metilo', { n: 5, subs: [{ p: 4, key: 'metil' }, { p: 2, key: 'etil' }], dbl: [4, 1] }]
+  ];
+  $('#tm', root).innerHTML = EX.map((e, i) => `<option value="${i}">${e[0]}</option>`).join('');
+  let st = { s: 0, d: 1, touched: false };
+  const spec = () => EX[+$('#tm', root).value][1];
+  const loc = p => (((p - st.s) * st.d) % spec().n + spec().n) % spec().n + 1;
+  const draw = (useBest) => {
+    const sp = spec(), res = analyze(sp); let L = loc; if (useBest) { L = res.best.loc; }
+    const nums = {}; for (let k = 0; k < sp.n; k++) nums[k] = L(k);
+    $('#tfig', root).innerHTML = ringFig(sp, { nums, R: 1.4 }).svg({ hits: {}, label: 'Anillo para numerar' });
+    const mine = analyze(Object.assign({}, sp)).cands.find(c => c.s === st.s && c.d === st.d), out = $('#tout', root);
+    if (!useBest && !st.touched) { out.innerHTML = '<div class="fb" style="background:var(--blue-s);color:var(--blue)">👆 Toca el vértice donde empezarías a numerar.</div>'; return; }
+    if (useBest) { out.innerHTML = `<div class="fb ok">Esta es la numeración correcta → <span class="mono">${res.name}</span></div>${stepsHTML(stepsFor(res))}`; return; }
+    if (!mine) { out.innerHTML = `<div class="fb bad">✘ Con este inicio/sentido los dobles enlaces no quedan en C1–C2. Prueba otro vértice o sentido.</div>`; return; }
+    const sameBest = cmpArr(mine.key[0], res.best.key[0]) === 0 && cmpArr(mine.key[1], res.best.key[1]) === 0 && cmpArr(mine.key[mine.key.length - 1], res.best.key[res.best.key.length - 1]) === 0;
+    if (sameBest) { out.innerHTML = `<div class="fb ok">✔ ¡Numeración correcta! Ramas en ${setStr(mine.set)} → <span class="mono">${res.name}</span></div>`; if (award('tr-' + $('#tm', root).value, 3)) toast('+3 ⭐'); }
+    else out.innerHTML = `<div class="fb bad">✘ Tus ramas quedan en ${setStr(mine.set)}${(sp.dbl || []).length ? ' (y dobles en ' + setStr(mine.dl) + ')' : ''}. Existe una numeración mejor: ${setStr(res.best.set)}. Revisa las prioridades.</div>`;
+  };
+  root.addEventListener('click', e => { const h = e.target.closest('.hit'); if (h) { st.s = +h.dataset.k; st.touched = true; draw(); } });
+  $('#tdir', root).onclick = () => { st.d *= -1; st.touched = true; draw(); };
+  $('#tbest', root).onclick = () => draw(true);
+  $('#tm', root).onchange = () => { st = { s: 0, d: 1, touched: false }; draw(); }; draw();
+});
+
+/* ---- T4 Benceno y aromaticidad ---- */
+add('Teoría', 't4', '4. El benceno y la aromaticidad', 'Estructura, resonancia y regla de Hückel', root => {
+  root.innerHTML = `<p>El <b>benceno</b> es <span class="mono">C<sub>6</sub>H<sub>6</sub></span>: un hexágono <b>plano</b>, con seis enlaces C–C <b>iguales</b>, carbonos <b>sp²</b> y electrones π <b>deslocalizados</b> (por eso se dibuja un círculo).</p>
+  <h3 style="margin:16px 0 6px">🔄 Resonancia de Kekulé</h3>
+  <div class="ctrl"><div class="chips"><button class="chip" data-r="A" aria-pressed="true" type="button">Forma A</button><button class="chip" data-r="B" aria-pressed="false" type="button">Forma B</button><button class="chip" data-r="H" aria-pressed="false" type="button">Híbrido real</button></div></div>
+  <div class="figrow"><div id="kfig"></div></div><p class="small mut" id="ktxt"></p>
+  <h3 style="margin:22px 0 6px">🧮 Regla de Hückel</h3>
+  <p>Un anillo es <b>aromático</b> si es <b>cíclico, plano, conjugado</b> y tiene <span class="tag p">4n + 2</span> electrones π (n = 0, 1, 2, …).</p>
+  <div class="tile"><div class="ctrl"><label><input type="checkbox" id="hc" checked> Cíclico</label><label><input type="checkbox" id="hp" checked> Plano</label><label><input type="checkbox" id="hj" checked> Conjugado</label><label>Electrones π <select id="he">${[2, 4, 6, 8, 10, 12, 14].map(x => `<option ${x === 6 ? 'selected' : ''}>${x}</option>`).join('')}</select></label></div><div id="hout" aria-live="polite"></div></div>
+  <details><summary>Reacciones típicas y origen del nombre</summary><div><p>El benceno prefiere <b>sustituir</b> un H (nitración, halogenación…) y no adicionar, para <b>conservar</b> su aromaticidad. Los alquenos, en cambio, adicionan. El nombre “aromático” viene del olor agradable de los primeros compuestos estudiados.</p></div></details>
+  <div class="box ess"><b>Lo esencial</b>Benceno: 6 e<sup>−</sup> π (n = 1), plano, simétrico, reacciona por <b>sustitución</b>.</div>`;
+  const kf = m => { const dbl = m === 'A' ? [0, 2, 4] : m === 'B' ? [1, 3, 5] : []; const f = ringFig({ n: 6, arom: m === 'H', subs: [], dbl }, { R: 1.1 }); return f.svg({ label: 'Benceno, ' + m, scale: 1.7 }); };
+  const setK = m => { $$('[data-r]', root).forEach(x => x.setAttribute('aria-pressed', x.dataset.r === m)); $('#kfig', root).innerHTML = kf(m); $('#ktxt', root).textContent = m === 'H' ? 'La realidad: los 6 enlaces son idénticos (intermedios entre simple y doble). El círculo representa los electrones π compartidos.' : 'Una de las dos formas de Kekulé. Ninguna existe sola: la molécula real es el híbrido de ambas.'; };
+  root.addEventListener('click', e => { const b = e.target.closest('[data-r]'); if (b) setK(b.dataset.r); }); setK('A');
+  const h = () => { const c = $('#hc', root).checked, p = $('#hp', root).checked, j = $('#hj', root).checked, e = +$('#he', root).value, n = (e - 2) / 4, ok4 = Number.isInteger(n);
+    let msg, cls = 'bad';
+    if (!c) msg = 'No es cíclico → no puede ser aromático.'; else if (!p) msg = 'No es plano → no es aromático (ej.: ciclooctatetraeno).'; else if (!j) msg = 'No es conjugado en todo el anillo → no es aromático.';
+    else if (ok4) { msg = `${e} = 4(${n}) + 2 → <b>cumple Hückel</b> (n = ${n}). ¡Es aromático!`; cls = 'ok'; } else msg = `${e} no es de la forma 4n + 2 (${e} = 4·${e / 4}${e % 4 ? '…' : ''}). → <b>No es aromático</b> (si cumple 4n es antiaromático).`;
+    $('#hout', root).innerHTML = `<div class="fb ${cls}">${msg}</div><p class="small mut">Ejemplos: benceno 6 e⁻ (n=1) · naftaleno 10 e⁻ (n=2) · antraceno 14 e⁻ (n=3).</p>`; };
+  $$('input,select', $('.tile', root)).forEach(x => x.onchange = h); h();
+});
+
+/* ---- T5 Nomenclatura de derivados del benceno ---- */
+add('Teoría', 't5', '5. Nomenclatura de derivados del benceno', 'Posiciones o/m/p, tolueno, xileno y nombres comunes', root => {
+  const COMUN = [['Tolueno', 'metilbenceno', { l: 'CH3' }], ['Fenol', 'hidroxibenceno', { l: 'OH' }], ['Anilina', 'aminobenceno', { l: 'NH2' }], ['Estireno', 'vinilbenceno', { l: 'CH', k: [{ l: 'CH2', o: 2 }] }], ['Ácido benzoico', 'ácido bencenocarboxílico', { l: 'C', k: [{ l: 'O', o: 2 }, { l: 'OH' }] }], ['Benzaldehído', 'bencenocarbaldehído', { l: 'CH', k: [{ l: 'O', o: 2 }] }]];
+  root.innerHTML = `<p><b>Un sustituyente:</b> nombre + <i>benceno</i> (clorobenceno, etilbenceno). <b>No se numera.</b> Si el benceno actúa como rama se llama <b>fenil-</b>.</p>
+  <div class="grid g3">${COMUN.map(c => { const f = new Fig(); const ids = f.poly(0, 0, 6, 90, .75, { circle: true }); f.sub(ids[0], 90, c[2], 1.1); return `<div class="tile" style="text-align:center">${f.svg({ label: c[0] })}<b>${c[0]}</b><div class="small mut">${c[1]}</div></div>`; }).join('')}</div>
+  <h3 style="margin:22px 0 6px">📐 Disustituidos: orto, meta, para</h3>
+  <p class="small mut">El primer Cl está fijo en el vértice superior. Toca otro vértice para poner el segundo Cl.</p>
+  <div class="figrow"><div id="ofig"></div></div><div id="oout" aria-live="polite"></div>
+  <h3 style="margin:22px 0 6px">🔺 Tri-sustituidos: vec, asim, sim</h3>
+  <p class="small mut">Coloca tres grupos CH<sub>3</sub> (toca tres vértices).</p>
+  <div id="tpick"></div>
+  <details open><summary>Reglas clave</summary><div><ul style="margin:0 0 0 18px;padding:0;line-height:1.7">
+   <li><b>Con CH<sub>3</sub>:</b> base <b>tolueno</b> (CH<sub>3</sub> = C1). Con <b>dos CH<sub>3</sub></b>: <b>xileno</b> (o-, m-, p- ó 1,2 / 1,3 / 1,4).</li>
+   <li>Tres sustituyentes: <b>vec</b> (1,2,3), <b>asim</b> (1,2,4), <b>sim</b> (1,3,5).</li>
+   <li>Menor conjunto de números; si hay empate, alfabético (<code>1-bromo-3-etilbenceno</code>).</li>
+   <li><b>¿Anillo o cadena?</b> El anillo es la cadena principal salvo que la cadena tenga <b>más de 6 C</b>, ramificaciones o un <b>grupo funcional</b>: entonces el anillo es <i>fenil</i> (<code>2-feniletanol</code>, <code>5-bromo-2-fenilhept-3-eno</code>).</li></ul></div></details>
+  <div class="figrow">
+   <div class="fig">${(() => { const f = new Fig(), ids = f.row(['H3C', 'CH', 'CH', 'CH', 'CH', 'CH2', 'CH3'], [1, 1, 2, 1, 1, 1]); f.main = ids; const h = f.poly(f.A[ids[1]].x, -1.6, 6, 90, .8, { circle: true }); f.b(ids[1], h[0]); f.br(ids[4], 'down', ['Br']); f.chainNums(ids); return f.svg({ label: '5-bromo-2-fenilhept-3-eno' }); })()}<div class="cap">cadena de 7 C → anillo = fenil</div></div>
+   <div class="fig">${(() => { const f = new Fig(); const h = f.poly(0, 0, 6, 90, .8, { circle: true }); f.sub(h[3], -90, { l: 'CH2', k: [{ l: 'CH2', k: [{ l: 'OH' }] }] }, .95); return f.svg({ label: '2-feniletanol' }); })()}<div class="cap">grupo OH → cadena = etanol</div></div></div>
+  <div class="box ess"><b>Lo esencial</b>Un CH<sub>3</sub> → tolueno · dos CH<sub>3</sub> → xileno · posiciones o/m/p · menor conjunto → alfabético.</div>`;
+  const ostate = { k: 3 };
+  const odraw = () => { const sp = { n: 6, arom: true, subs: [{ p: 0, key: 'cloro' }, { p: ostate.k, key: 'cloro' }] }, res = analyze(sp), nums = {}; res.loc.forEach((v, k) => nums[k] = v);
+    const f = ringFig(sp, { nums, R: 1.1 }); $('#ofig', root).innerHTML = f.svg({ hits: {}, label: 'Benceno con dos cloros' });
+    const d = Math.min(ostate.k, 6 - ostate.k), pos = d === 1 ? ['orto (o-)', '1,2'] : d === 2 ? ['meta (m-)', '1,3'] : ['para (p-)', '1,4'];
+    $('#oout', root).innerHTML = `<div class="box info"><b>Resultado</b>Posición <b>${pos[0]}</b> (${pos[1]}) → <span class="namebig">${pos[0].split(' ')[0][0]}-diclorobenceno = ${res.name}</span></div>`; };
+  root.addEventListener('click', e => { const h = e.target.closest('#ofig .hit'); if (h) { const k = +h.dataset.k; if (k === 0) return toast('Ese Cl está fijo'); ostate.k = k; odraw(); } }); odraw();
+  RingPicker($('#tpick', root), { n: 6, arom: true, palette: ['metil'], init: [{ p: 0, key: 'metil' }, { p: 1, key: 'metil' }, { p: 2, key: 'metil' }], onChange: (sp, res, out) => { const p = sp.subs.map(s => s.p).sort(num); if (p.length !== 3) { out.insertAdjacentHTML('afterbegin', '<div class="box warn"><b>Elige tres vértices</b>Coloca exactamente tres CH<sub>3</sub> para clasificar.</div>'); return; } const d = res.best.set; const k = d.join(','); const cat = k === '1,2,3' ? 'vec' : k === '1,2,4' ? 'asim' : k === '1,3,5' ? 'sim' : '?'; out.insertAdjacentHTML('afterbegin', `<div class="box key"><b>Clasificación</b>Posiciones ${setStr(res.best.set)} → <span class="tag p">${cat}</span> (${cat === 'vec' ? 'vecinal' : cat === 'asim' ? 'asimétrico' : 'simétrico'}) · <b>${res.name}</b></div>`); } });
+});
+
+/* ---- T6 Policíclicos ---- */
+add('Teoría', 't6', '6. Aromáticos policíclicos', 'Naftaleno, antraceno y fenantreno (anillos fusionados)', root => {
+  root.innerHTML = `<p>Son anillos de benceno <b>pegados</b> compartiendo un enlace. El <b>naftaleno</b> (C<sub>10</sub>H<sub>8</sub>) tiene 10 e<sup>−</sup> π (<b>n = 2</b>) y <b>5 enlaces π</b> en la forma de Kekulé.</p>
+  <div class="ctrl"><div class="chips"><button class="chip" data-m="n" aria-pressed="false" type="button">Números 1–8</button><button class="chip" data-m="g" aria-pressed="true" type="button">Posiciones α / β</button></div></div>
+  <div class="figrow"><div id="nfig"></div><div class="tile" style="max-width:340px"><div id="ninfo" aria-live="polite"><b>Toca un número o letra</b><p class="small mut">Descubre qué posición es.</p></div></div></div>
+  <div class="grid g2"><div class="tile"><h3 style="text-transform:none">α (1, 4, 5, 8)</h3><p class="small">Vecinas del punto donde se unen los anillos. Ej.: α-naftol (1-naftol).</p></div><div class="tile"><h3 style="text-transform:none">β (2, 3, 6, 7)</h3><p class="small">Más alejadas. Ej.: 2-cloro-6-metilnaftaleno (ambos en β).</p></div></div>
+  <p class="small mut">Los carbonos de fusión (4a, 8a) <b>no</b> se numeran con números normales.</p>
+  <div class="figrow"><div class="fig">${fusedFig([[0, 0], [1.386, 0], [2.772, 0]], .8).svg({ label: 'antraceno', scale: 1.3 })}<div class="cap">antraceno C₁₄H₁₀ (lineal)</div></div><div class="fig">${fusedFig([[0, 0], [1.386, 0], [2.079, 1.2]], .8).svg({ label: 'fenantreno', scale: 1.3 })}<div class="cap">fenantreno C₁₄H₁₀ (angular)</div></div></div>
+  <div class="box ess"><b>Lo esencial</b>Naftaleno: 10 e⁻ π · α = 1,4,5,8 · β = 2,3,6,7 · usos: antipolillas y colorantes. Antraceno y fenantreno: 14 e⁻ π (n = 3).</div>
+  <div class="box warn"><b>Ojo con esto</b>El naftaleno tiene <b>5</b> enlaces π (no 6). 10 electrones ÷ 2 = 5.</div>`;
+  let mode = 'g';
+  const draw = () => { const f = naphFig({ greek: mode === 'g' }); let s = f.svg({ label: 'naftaleno', scale: 1.7 });
+    root.querySelector('#nfig').innerHTML = s; $$('[data-m]', root).forEach(x => x.setAttribute('aria-pressed', x.dataset.m === mode)); };
+  root.addEventListener('click', e => { const c = e.target.closest('[data-m]'); if (c) { mode = c.dataset.m; draw(); } const t = e.target.closest('#nfig text.greek, #nfig text.num'); if (t) { const txt = t.textContent; $('#ninfo', root).innerHTML = /\d/.test(txt) ? `<b>Carbono ${txt}</b><p class="small">Posición ${[1, 4, 5, 8].includes(+txt) ? '<b style="color:var(--orange)">α</b> (junto a la fusión)' : '<b style="color:var(--purple)">β</b> (más alejada)'}.</p>` : `<b>Posición ${txt}</b><p class="small">${txt === 'α' ? 'Carbonos 1, 4, 5, 8: pegados a la fusión.' : 'Carbonos 2, 3, 6, 7: alejados de la fusión.'}</p>`; } });
+  draw();
+});
+
+/* ---- T7 Propiedades y usos ---- */
+add('Teoría', 't7', '7. Propiedades y usos', 'Toca cada tarjeta para darle la vuelta', root => {
+  const C = [['Tolueno', '🎨', 'Solvente, medicamentos, colorantes.', 'Metilbenceno C₇H₈'], ['Xilenos', '🖌️', 'Diluyentes de pinturas y barnices.', 'Dimetilbencenos (o-, m-, p-) C₈H₁₀'], ['Estireno', '🧴', 'Materia prima del poliestireno.', 'Vinilbenceno C₈H₈'], ['Fenol', '🧪', 'Resinas y desinfectantes.', 'Hidroxibenceno C₆H₆O'], ['Anilina', '🌈', 'Colorantes y fármacos.', 'Aminobenceno C₆H₇N'], ['Naftaleno', '🦋', 'Antipolillas e intermediario de colorantes y resinas.', 'C₁₀H₈ · 5 enlaces π']];
+  root.innerHTML = `<div class="grid g3">${C.map((c, i) => `<button type="button" class="flip" data-i="${i}" aria-pressed="false"><div class="big">${c[1]}</div><h3>${c[0]}</h3><p class="small mut">Toca para ver su uso</p></button>`).join('')}</div>
+  <div class="grid g2" style="margin-top:14px"><div class="tile"><h3>Propiedades físicas</h3><ul class="small" style="margin:6px 0 0 16px;padding:0"><li>Apolares e <b>insolubles en agua</b>.</li><li>Solubles en solventes orgánicos.</li><li>Olor característico; inflamables.</li><li>Muchos son <b>tóxicos</b> (el benceno es cancerígeno).</li></ul></div><div class="tile"><h3>Origen</h3><p class="small">Petróleo y alquitrán de hulla. Los alicíclicos (naftenos) forman parte del petróleo y de los aceites lubricantes.</p></div></div>
+  <div class="box ess"><b>Lo esencial</b>Aromáticos: solventes y materias primas (plásticos, colorantes, medicinas). Hay que manejarlos con cuidado por su toxicidad.</div>`;
+  root.addEventListener('click', e => { const b = e.target.closest('.flip'); if (!b) return; const c = C[+b.dataset.i], on = b.getAttribute('aria-pressed') === 'true'; b.setAttribute('aria-pressed', !on); b.innerHTML = on ? `<div class="big">${c[1]}</div><h3>${c[0]}</h3><p class="small mut">Toca para ver su uso</p>` : `<h3>${c[0]}</h3><p><b>Uso:</b> ${c[2]}</p><p class="small mut">${c[3]}</p>`; });
+});
+
+/* ---- T8 Resumen y errores ---- */
+add('Teoría', 't8', '8. Resumen y errores frecuentes', 'Tabla final y tarjetas de ojo', root => {
+  const ER = [['Olvidar que, con empate de números, manda el orden alfabético.', 'Ej.: <b>1-etil-4-metil</b>ciclohexano (no 1-metil-4-etil).'], ['Numerar las ramas antes que el doble enlace.', 'Ej.: <b>3-bromociclopenteno</b> (el doble enlace es C1=C2, y el Br queda en 3).'], ['Contar “tert” o “di” al ordenar alfabéticamente.', 'Ej.: <b>1-tert-butil-4-isopropil</b>ciclohexano (butil antes que isopropil).'], ['Poner “1-” en ciclopenteno o numerar un solo sustituyente en benceno.', 'Ej.: <b>tolueno</b> (no 1-metilbenceno); <b>ciclopenteno</b> (no ciclopent-1-eno).'], ['Confundir isómeros de posición (o-, m-, p-) con isómeros de cadena.', 'Cambian de lugar los sustituyentes, el anillo es el mismo.'], ['Confundir 4 mol de átomos de H con 2 mol de H₂ al hidrogenar un dieno.', 'Cada doble enlace gasta 1 mol de H₂ (2 mol de átomos de H).']];
+  root.innerHTML = `<div class="scroll-x"><table class="t"><thead><tr><th>Tipo</th><th>Fórmula</th><th>Ejemplo</th><th>Reacción típica</th><th>Regla clave</th></tr></thead><tbody>
+  <tr><td>Cicloalcano</td><td>C<sub>n</sub>H<sub>2n</sub></td><td>ciclohexano</td><td>sustitución (radicalaria)</td><td>ciclo- + alcano; menor conjunto → alfabético</td></tr>
+  <tr><td>Cicloalqueno</td><td>C<sub>n</sub>H<sub>2n−2</sub></td><td>ciclopenteno</td><td>adición</td><td>doble enlace = C1–C2</td></tr>
+  <tr><td>Cicloalquino</td><td>C<sub>n</sub>H<sub>2n−4</sub></td><td>ciclooctino</td><td>adición</td><td>triple enlace = C1–C2</td></tr>
+  <tr><td>Aromático</td><td>C<sub>6</sub>H<sub>6</sub> (benceno)</td><td>tolueno, xileno</td><td><b>sustitución</b></td><td>4n+2 e⁻ π · o/m/p · tolueno / xileno</td></tr>
+  <tr><td>Policíclico</td><td>C<sub>10</sub>H<sub>8</sub> (naftaleno)</td><td>α-naftol</td><td>sustitución</td><td>posiciones α y β</td></tr></tbody></table></div>
+  <h3 style="margin:18px 0 6px">⚠ Errores frecuentes (toca para ver el ejemplo)</h3>
+  ${ER.map(e => `<details><summary><span class="tag o">Ojo</span> ${e[0]}</summary><div>${e[1]}</div></details>`).join('')}
+  <h3 style="margin:18px 0 6px">✅ Mi lista de control</h3>
+  <div class="tile" id="chk">${['Identifiqué el anillo (alicíclico o aromático)', 'Dibujé o ubiqué el doble enlace (C1–C2)', 'Probé las dos direcciones de numeración', 'Elegí el menor conjunto de números', 'Resolví el empate con el orden alfabético', 'Escribí el nombre completo con guiones y comas'].map((t, i) => `<label style="display:flex;gap:8px;padding:4px 0"><input type="checkbox" data-i="${i}" ${store.get('chk', [])[i] ? 'checked' : ''}> ${t}</label>`).join('')}</div>
+  <div class="box ess"><b>Para los exámenes</b>Las ideas que más se repiten: regla 4n+2, o/m/p, tolueno y xileno, menor conjunto de números y orden alfabético, y la fórmula C<sub>n</sub>H<sub>2n</sub>.</div>`;
+  $('#chk', root).onchange = () => store.set('chk', $$('input', $('#chk', root)).map(x => x.checked));
+});
+
+/* =====================================================================
+   5. PRÁCTICA
+   ===================================================================== */
+/* ---- P1 Taller ---- */
+add('Práctica', 'p1', 'Taller de nomenclatura', 'Dibuja tu propio compuesto y el programa lo nombra paso a paso', root => {
+  root.innerHTML = `<p>Elige un sustituyente, toca los vértices del anillo y mira cómo se arma el nombre. Prueba casos de <b>empate</b>, <b>dobles enlaces</b> y <b>tolueno / xileno</b>.</p><div id="rp"></div>
+  <div class="box key"><b>Prueba esto</b>1) Benceno: pon CH<sub>3</sub> en 3 vértices alternados → mira cómo cambia el nombre. 2) Cicloalcano: etil y metil en vértices opuestos → ¿cuál recibe el 1? 3) Ciclopenteno: pon un doble enlace y un Br al lado.</div>`;
+  RingPicker($('#rp', root), { n: 6, sizes: true, types: true, random: true, palette: ['metil', 'etil', 'propil', 'isopropil', 'tert-butil', 'bromo', 'cloro', 'nitro'], init: [{ p: 0, key: 'etil' }, { p: 3, key: 'metil' }] });
+});
+
+/* ---- P2 Ejercicios del libro (2,3,8,11,14) ---- */
+function P2fig() {}
+const BOOK = [];
+const ST = (t, h) => [t, h];
+BOOK.push({
+  num: 2, title: 'Posiciones en el benceno disustituido',
+  enun: 'Respecto al siguiente compuesto (benceno con dos átomos de cloro enfrentados), señale las proposiciones verdaderas:<br>I. Es un compuesto aromático disustituido del benceno.<br>II. Es repelente de insectos.<br>III. Se llama p-diclorobenceno.',
+  figs: () => [figure(ringFig({ n: 6, arom: true, subs: [{ p: 1, key: 'cloro' }, { p: 4, key: 'cloro' }] }, { nums: { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 0: 6 }, R: 1.1 }).svg({ label: 'p-diclorobenceno' }), 'Cl en 1 y 4')],
+  opts: ['solo I', 'solo II', 'solo III', 'I y II', 'I, II y III'], ans: 4,
+  steps: [ST('Lee el dibujo', 'Es un <b>anillo de benceno</b> (círculo central) con <b>dos átomos de Cl</b>, uno frente al otro: posiciones <b>1 y 4</b>.'), ST('Proposición I', 'Dos H del anillo fueron reemplazados por dos Cl → compuesto <b>disustituido</b>. <b>Verdadera</b>.'), ST('Proposición II', 'El p-diclorobenceno es el ingrediente de las “bolas” contra polillas e insectos. <b>Verdadera</b>.'), ST('Proposición III', 'Posiciones 1,4 = <b>para</b> → p-diclorobenceno (1,4-diclorobenceno). <b>Verdadera</b>.'), ST('Respuesta', 'V, V, V → <b>e) I, II y III</b>.')],
+  key: '<b>Posiciones en un benceno disustituido</b> — orto (o-): <code>1,2</code> (vecinos) · meta (m-): <code>1,3</code> (un carbono en medio) · para (p-): <code>1,4</code> (enfrentados). Dos sustituyentes iguales → prefijo <i>di-</i>. “p-diclorobenceno” y “1,4-diclorobenceno” son el mismo nombre con letras o con números.'
+});
+BOOK.push({
+  num: 3, title: 'Nombre IUPAC de un benceno trisustituido',
+  enun: 'Indique el nombre IUPAC del compuesto: benceno con un <b>propilo</b> (CH<sub>2</sub>–CH<sub>2</sub>–CH<sub>3</sub>), un <b>metilo</b> (CH<sub>3</sub>) y un <b>etilo</b> (CH<sub>2</sub>–CH<sub>3</sub>).',
+  figs: () => [figure(ringFig({ n: 6, arom: true, subs: [{ p: 5, key: 'propil' }, { p: 1, key: 'metil' }, { p: 2, key: 'etil' }] }, { nums: { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 0: 6 }, R: 1.1 }).svg({ label: 'benceno con propilo, metilo y etilo' }), 'metilo = 1 (tolueno)')],
+  opts: ['2-etil-5-propiltolueno', '2-etil-3-metil-4-propilbenceno', '1-etil-2-metil-5-propilbenceno', '1-etil-2-metilisopreno', '3-etil-4-metil-1-propilbenceno'], ans: 0,
+  spec: { n: 6, arom: true, subs: [{ p: 5, key: 'propil' }, { p: 1, key: 'metil' }, { p: 2, key: 'etil' }] },
+  extra: 'Mira cómo el programa compara las dos formas de numerar (hacia el etilo o hacia el propilo).',
+  steps: [ST('Identifica las ramas', 'CH<sub>3</sub> = <b>metilo</b> (1 C) · CH<sub>2</sub>CH<sub>3</sub> = <b>etilo</b> (2 C) · CH<sub>2</sub>CH<sub>2</sub>CH<sub>3</sub> = <b>propilo</b> (3 C).'), ST('Elige la base', 'Hay un metilo en el anillo → base <b>tolueno</b>. El carbono con el CH<sub>3</sub> es el <b>C1</b>.'), ST('Numera hacia el menor conjunto', 'Hacia el etilo: etilo = 2, propilo = 5 → <b>{2, 5}</b>. Hacia el otro lado: propilo = 3, etilo = 6 → {3, 6}. Gana <b>{2, 5}</b> porque 2 &lt; 3.'), ST('Orden alfabético', '<b>e</b>til va antes que <b>p</b>ropil → <b>2-etil-5-propiltolueno</b>.'), ST('Respuesta', 'La alternativa <b>a)</b>.')],
+  key: '<b>Receta para benceno con varias ramas</b> — 1) Si hay CH<sub>3</sub>: <i>tolueno</i> (C1 = metilo); dos CH<sub>3</sub>: <i>xileno</i>. 2) Numera por el camino con el <b>menor conjunto de números</b>. 3) Ramas en <b>orden alfabético</b>. 4) Rama de ≤ 6 C → el anillo es la cadena principal. <b>Cadena topológica:</b> los vértices del hexágono son carbonos; solo las puntas de las ramas se escriben como CH<sub>3</sub>.',
+  warn: 'El solucionario oficial dice “No hay respuesta” porque transcribió la alternativa a) como “2-etil-<b>4</b>-propiltolueno”. En el libro la alternativa a) dice <b>5</b>-propil, que coincide con el nombre obtenido. La respuesta es <b>a)</b>.'
+});
+BOOK.push({
+  num: 8, title: 'Tolueno y xileno: dos derivados',
+  enun: 'Determine el nombre de los siguientes derivados aromáticos (tolueno y xileno son compuestos de uso industrial).',
+  figs: () => [figure(ringFig({ n: 6, arom: true, subs: [{ p: 0, key: 'metil' }, { p: 2, key: 'etil' }, { p: 3, key: 'bromo' }] }, { nums: { 0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6 }, R: 1.1 }).svg({ label: 'compuesto a' }), '(a)'), figure(ringFig({ n: 6, arom: true, subs: [{ p: 0, key: 'metil' }, { p: 2, key: 'metil' }, { p: 4, key: 'etil' }] }, { nums: { 0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6 }, R: 1.1 }).svg({ label: 'compuesto b' }), '(b)')],
+  opts: ['4-bromo-3-etiltolueno y 5-etil-1,3-xileno', '3-etil-4-bromotolueno y 5-etil-1,4-xileno', '1-bromo-2-etiltolueno y 5-etil-1,2-xileno', '1-bromo-2-etiltolueno y 5-etil-1,3-xileno', '1-bromo-2-etiltolueno y 5-etil-1,3-xileno (igual que d en el libro)'], ans: 0,
+  spec: { n: 6, arom: true, subs: [{ p: 0, key: 'metil' }, { p: 2, key: 'etil' }, { p: 3, key: 'bromo' }] }, spec2: { n: 6, arom: true, subs: [{ p: 0, key: 'metil' }, { p: 2, key: 'metil' }, { p: 4, key: 'etil' }] },
+  steps: [ST('(a) Una base: tolueno', 'Tiene un <b>CH<sub>3</sub></b> → base <b>tolueno</b>, ese carbono es C1.'), ST('(a) Numera', 'Hacia el etilo: etilo = 3, Br = 4 → <b>{3, 4}</b>. Al otro lado: Br = 4, etilo = 5 → {4, 5}. Gana {3, 4}.'), ST('(a) Alfabético', '<b>b</b>romo, <b>e</b>til → <b>4-bromo-3-etiltolueno</b>.'), ST('(b) Una base: xileno', 'Tiene <b>dos CH<sub>3</sub></b> → base <b>xileno</b>.'), ST('(b) Posiciones', 'Los CH<sub>3</sub> están en 1 y 3 (meta) y el etilo en 5. Es simétrico: solo hay una forma → <b>5-etil-1,3-xileno</b>.'), ST('Respuesta', '<b>a)</b> 4-bromo-3-etiltolueno y 5-etil-1,3-xileno.')],
+  key: '<b>Tolueno, xileno y posiciones</b> — un metilo → <i>tolueno</i> (C1 = metilo). Dos metilos → <i>xileno</i> (o-, m-, p- = 1,2 / 1,3 / 1,4). Tres iguales alternados (1,3,5) = <b>sim</b>; 1,2,3 = <b>vec</b>; 1,2,4 = <b>asim</b>. Menor conjunto primero; si hay empate, el alfabético decide (bromo antes que etil). <b>Cadena topológica:</b> cada vértice del hexágono es un C con un H.'
+});
+BOOK.push({
+  num: 11, title: 'Alqueno ramificado y ciclopentadieno',
+  enun: 'Algunos alquenos cumplen funciones biológicas (el eteno es la hormona de la maduración de los frutos). Determine el nombre de (a) y (b).',
+  figs: () => { const f = new Fig(); const r = f.row(['H3C', 'C', 'CH', 'CH2', 'CH2', 'CH', 'CH2', 'CH2', 'CH3'], [1, 2, 1, 1, 1, 1, 1, 1]); f.br(r[1], 'up', ['CH3']); f.br(r[5], 'down', ['CH3']); f.main = r; f.chainNums(r);
+    const g = ringFig({ n: 5, subs: [{ p: 4, key: 'metil' }, { p: 2, key: 'etil' }], dbl: [4, 1] }, { nums: { 2: 1, 1: 2, 0: 3, 4: 4, 3: 5 }, R: 1.45 });
+    return [figure(f.svg({ label: 'alqueno ramificado' }), '(a)'), figure(g.svg({ label: 'ciclopentadieno' }), '(b)')]; },
+  opts: ['2,6-dimetilnon-3-eno y 1-etil-4-metilciclopenta-2,3-dieno', '4,8-dimetilnon-7-eno y 4-metil-1-etilciclopenta-1,3-dieno', '2,6-dimetilnon-2-eno y 1-etil-4-metilciclopenta-1,3-dieno', '4,8-dimetilnon-7-eno y 4-metil-1-etilciclopenta-2,3-dieno', '2,4-dimetilnon-3-eno y 4-metil-1-etilciclopenta-2,3-dieno'], ans: 2,
+  spec2: { n: 5, subs: [{ p: 4, key: 'metil' }, { p: 2, key: 'etil' }], dbl: [4, 1] },
+  steps: [ST('(a) Busca la cadena principal', 'La cadena <b>más larga que contiene el doble enlace</b> tiene <b>9 C</b> → <b>non-</b>.'), ST('(a) Numera', 'Desde el extremo más cercano al doble enlace: C2=C3 → <b>non-2-eno</b> (desde el otro lado sería C7=C8).'), ST('(a) Ramas', 'Un metilo en C2 y otro en C6 → <b>2,6-dimetil</b>. Nombre: <b>2,6-dimetilnon-2-eno</b>.'), ST('(b) Anillo de 5 con 2 dobles', 'Ciclopentadieno. Numera para dar a los dobles enlaces <b>1,3</b>.'), ST('(b) Ramas y alfabético', 'Etilo y metilo quedan en 1 y 4. Empate → alfabético: <b>e</b>til = 1, <b>m</b>etil = 4 → <b>1-etil-4-metilciclopenta-1,3-dieno</b>.'), ST('Respuesta', '<b>c)</b> 2,6-dimetilnon-2-eno y 1-etil-4-metilciclopenta-1,3-dieno.')],
+  key: '<b>Prioridades para numerar</b> — 1) La cadena principal es la más larga <i>que contiene el doble enlace</i>. 2) Numera para dar el <b>menor número al doble enlace</b> (antes que a las ramas). 3) Luego el menor conjunto para las ramas. 4) Empate: alfabético. En un anillo no hay extremos: se numera por donde los dobles queden en <code>1,3</code>. <b>Cadena topológica:</b> en el dibujo de líneas, cada vértice es un C y cada punta es un CH<sub>3</sub>.',
+  warn: 'El oficial marca la letra c), pero escribe “non-<b>3</b>-eno”. La alternativa c) del libro dice <b>non-2-eno</b>, que es lo correcto. Es un error de tipeo; la letra coincide.'
+});
+BOOK.push({
+  num: 14, title: 'Naftenos: cicloalcanos del petróleo',
+  enun: 'Algunos cicloalcanos (“naftenos”) forman parte del petróleo y se emplean en lubricantes. Valor de verdad:<br>I. El nombre correcto de (a) es 1,2,4-trimetilciclohexano.<br>II. El nombre de (b) es 1-etil-1-metilciclopentano.<br>III. La fórmula global de (a) es C<sub>9</sub>H<sub>15</sub>.',
+  figs: () => [figure(ringFig({ n: 6, subs: [{ p: 0, key: 'metil' }, { p: 2, key: 'metil' }, { p: 3, key: 'metil' }] }, { nums: { 3: 1, 2: 2, 1: 3, 0: 4, 5: 5, 4: 6 }, R: 1.3 }).svg({ label: 'trimetilciclohexano' }), '(a)'), figure(ringFig({ n: 5, subs: [{ p: 0, key: 'metil' }, { p: 0, key: 'etil' }] }, { nums: { 0: 1, 1: 2, 2: 3, 3: 4, 4: 5 }, rot: -90, R: 1.3 }).svg({ label: 'etil y metil en el mismo carbono' }), '(b)')],
+  opts: ['VVV', 'VVF', 'VFV', 'FVF', 'FFV'], ans: 1,
+  spec: { n: 6, subs: [{ p: 0, key: 'metil' }, { p: 2, key: 'metil' }, { p: 3, key: 'metil' }] },
+  steps: [ST('I — nombre de (a)', 'Anillo de 6 C con 3 CH<sub>3</sub>. Numeramos para el <b>menor conjunto</b>: <b>1,2,4</b> (el otro sentido da 1,3,4). → <b>1,2,4-trimetilciclohexano</b>. <b>Verdadera</b>.'), ST('II — nombre de (b)', 'El anillo tiene 5 C: el carbono central y 4 CH<sub>2</sub> → <b>ciclopentano</b>. En el <b>mismo carbono</b> cuelgan CH<sub>3</sub> y C<sub>2</sub>H<sub>5</sub>: ese carbono es C1 y se repite el número. Alfabético: etil antes que metil → <b>1-etil-1-metilciclopentano</b>. <b>Verdadera</b>.'), ST('III — fórmula de (a)', 'Cicloalcano: C<sub>n</sub>H<sub>2n</sub>. El ciclohexano es C<sub>6</sub>H<sub>12</sub>. Cada CH<sub>3</sub> reemplaza un H: suma 1 C y 2 H. Con 3 metilos: C<sub>6</sub>H<sub>12</sub> + 3 CH<sub>2</sub> = <b>C<sub>9</sub>H<sub>18</sub></b>. La proposición dice C<sub>9</sub>H<sub>15</sub> (no cumple 2n = 18). <b>Falsa</b>.'), ST('Respuesta', 'V, V, F → <b>b) VVF</b>.')],
+  key: '<b>Cadena topológica de un cicloalcano</b> — Numera el anillo para el <b>menor conjunto</b> (1,2,4 y no 1,3,4). Dos ramas en el <b>mismo carbono</b> → ese carbono es el 1 y se repite el número (1-etil-1-metil). Empate → <b>alfabético</b>. Fórmula: cicloalcano = C<sub>n</sub>H<sub>2n</sub> (n = total de C), también con ramas alquilo. En el libro, el “H<sub>2</sub>C” de (b) es un CH<sub>3</sub> (errata); aquí se dibuja CH<sub>3</sub>.'
+});
+
+add('Práctica', 'p2', 'Ejercicios del libro: 2, 3, 8, 11 y 14', 'Pruébalos tú primero; luego abre la justificación paso a paso', root => {
+  root.innerHTML = `<div class="box info"><b>Cómo usar esta sección</b>Elige una alternativa. Después abre el paso a paso: se muestra de a un paso para que lo sigas a tu ritmo. Los recuadros morados resumen las reglas de nomenclatura y cadena topológica.</div>`;
+  BOOK.forEach(b => {
+    const c = el(`<article class="exc" id="b${b.num}"><header><span class="tag p">Pregunta ${b.num}</span><h3>${b.title}</h3></header><div class="enun">${b.enun}</div><div class="figrow">${b.figs().join('')}</div><div class="mcq"></div><div class="rest"></div></article>`);
+    root.appendChild(c);
+    const rest = $('.rest', c);
+    const mc = mcBlock({ opts: b.opts, ans: b.ans, key: 'book' + b.num, pts: 15, onDone: () => { rest.innerHTML = ''; rest.appendChild(el('<h4 style="margin:12px 0 4px">📖 Justificación paso a paso</h4>')); const sp = stepper(b.steps); rest.appendChild(sp); sp.showAll(); extras(); } });
+    $('.mcq', c).appendChild(mc);
+    rest.innerHTML = `<details><summary>Ver el paso a paso sin responder</summary><div class="inner"></div></details>`;
+    const inner = $('.inner', rest); inner.appendChild(stepper(b.steps));
+    function extras() {
+      let h = `<div class="box key"><b>Enfoque: nomenclatura y cadena topológica</b>${b.key}</div>`; if (b.warn) h += `<div class="box warn"><b>Ojo con el solucionario oficial</b>${b.warn}</div>`;
+      const sp = [b.spec, b.spec2].filter(Boolean).map(s => analyze(s)); if (sp.length && b.extra) h += `<details><summary>🧠 Cómo lo calcula el programa</summary><div>${sp.map(r => stepsHTML(stepsFor(r))).join('')}</div></details>`;
+      rest.insertAdjacentHTML('beforeend', h);
+    }
+  });
+});
+
+/* ---- P3 Ejercicios similares ---- */
+const SIMS = [];
+const mkName = (num, title, enun, spec, o = {}) => { const res = analyze(spec), mc = mcFrom(res, num * 31 + title.length); SIMS.push(Object.assign({ near: num, title, enun, fig: () => ringFig(spec, { R: spec.arom ? 1.1 : 1.4 }).svg({ label: title }), opts: mc.opts, ans: mc.ans, steps: stepsFor(res), html: false }, o)); };
+SIMS.push({ near: 2, title: 'm-dibromobenceno', enun: 'Respecto al compuesto mostrado (benceno con dos Br separados por un carbono):<br>I. Es un compuesto aromático disustituido.<br>II. Se llama m-dibromobenceno.<br>III. Sus bromos están en las posiciones 1 y 4.',
+  fig: () => ringFig({ n: 6, arom: true, subs: [{ p: 0, key: 'bromo' }, { p: 2, key: 'bromo' }] }, { nums: { 0: 1, 1: 2, 2: 3 }, R: 1.1 }).svg({ label: 'm-dibromobenceno' }), opts: ['solo I', 'solo II', 'solo III', 'I y II', 'I, II y III'], ans: 3,
+  steps: [['I', 'Dos Br en el anillo → <b>disustituido</b>. Verdadera.'], ['II', 'Los Br están en 1 y 3: un carbono en medio = <b>meta</b> → m-dibromobenceno. Verdadera.'], ['III', '1,4 sería <b>para</b>; aquí es 1,3. Falsa.'], ['Respuesta', 'V, V, F → <b>d) I y II</b>.']] });
+SIMS.push({ near: 2, title: 'o-xileno', enun: 'Para el 1,2-dimetilbenceno (dos CH<sub>3</sub> en carbonos vecinos):<br>I. Se llama o-xileno.<br>II. Sus metilos están en las posiciones 1 y 3.<br>III. Es isómero de posición del p-xileno.',
+  fig: () => ringFig({ n: 6, arom: true, subs: [{ p: 0, key: 'metil' }, { p: 1, key: 'metil' }] }, { nums: { 0: 1, 1: 2 }, R: 1.1 }).svg({ label: 'o-xileno' }), opts: ['solo I', 'solo II', 'I y II', 'I y III', 'II y III'], ans: 3,
+  steps: [['I', 'Dos CH<sub>3</sub> → xileno; vecinos (1,2) = <b>orto</b> → o-xileno. Verdadera.'], ['II', 'Están en 1,2, no en 1,3. Falsa.'], ['III', 'o- y p-xileno tienen el mismo anillo y cambian de <b>posición</b>. Verdadera.'], ['Respuesta', 'V, F, V → <b>d) I y III</b>.']] });
+mkName(3, 'Trisustituido con tolueno', 'Indique el nombre IUPAC del compuesto: benceno con un metilo, un etilo y un isopropilo.', { n: 6, arom: true, subs: [{ p: 1, key: 'metil' }, { p: 2, key: 'etil' }, { p: 4, key: 'isopropil' }] });
+mkName(3, 'Trisustituido sin metilo', 'Indique el nombre IUPAC del benceno con bromo, cloro y nitro.', { n: 6, arom: true, subs: [{ p: 0, key: 'cloro' }, { p: 2, key: 'bromo' }, { p: 3, key: 'nitro' }] });
+mkName(8, 'Tolueno disustituido', 'Determine el nombre del derivado aromático (un metilo, un cloro y un nitro).', { n: 6, arom: true, subs: [{ p: 0, key: 'metil' }, { p: 1, key: 'cloro' }, { p: 4, key: 'nitro' }] });
+mkName(8, 'Xileno con etilo', 'Determine el nombre del derivado aromático (dos metilos enfrentados y un etilo).', { n: 6, arom: true, subs: [{ p: 0, key: 'metil' }, { p: 3, key: 'metil' }, { p: 1, key: 'etil' }] });
+SIMS.push({ near: 11, title: 'Alqueno ramificado', enun: 'Determine el nombre del compuesto: CH<sub>3</sub>–C(CH<sub>3</sub>)=CH–CH<sub>2</sub>–CH(CH<sub>3</sub>)–CH<sub>2</sub>–CH<sub>3</sub>',
+  fig: () => { const f = new Fig(), r = f.row(['H3C', 'C', 'CH', 'CH2', 'CH', 'CH2', 'CH3'], [1, 2, 1, 1, 1, 1]); f.br(r[1], 'up', ['CH3']); f.br(r[4], 'down', ['CH3']); f.main = r; f.chainNums(r); return f.svg({ label: '2,5-dimetilhept-2-eno' }); },
+  opts: ['3,6-dimetilhept-5-eno', '2,5-dimetilhept-2-eno', '2,5-dimetilhept-3-eno', '5-etil-2-metilhex-2-eno', '2,5-dimetilheptano'], ans: 1,
+  steps: [['Cadena principal', 'La más larga que contiene el doble enlace: <b>7 C</b> → hept-.'], ['Numeración', 'Desde la izquierda el doble enlace queda en C2=C3 (desde la derecha sería C5=C6). Gana la izquierda: <b>hept-2-eno</b>.'], ['Ramas', 'Metilos en C2 y C5 → <b>2,5-dimetil</b>.'], ['Nombre', '<b>2,5-dimetilhept-2-eno</b>.']] });
+mkName(11, 'Ciclohexadieno con ramas', 'Determine el nombre del cicloalcadieno con un metilo y un etilo.', { n: 6, subs: [{ p: 1, key: 'metil' }, { p: 4, key: 'etil' }], dbl: [0, 2] });
+SIMS.push({ near: 14, title: 'Trimetilciclohexano y fórmula', enun: 'Valor de verdad (a: ciclohexano con CH<sub>3</sub> en vértices alternados):<br>I. El nombre de (a) es 1,3,5-trimetilciclohexano.<br>II. La fórmula global de (a) es C<sub>9</sub>H<sub>18</sub>.<br>III. La fórmula global de (a) es C<sub>9</sub>H<sub>16</sub>.',
+  fig: () => ringFig({ n: 6, subs: [{ p: 0, key: 'metil' }, { p: 2, key: 'metil' }, { p: 4, key: 'metil' }] }, { nums: { 0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6 }, R: 1.4 }).svg({ label: '1,3,5-trimetilciclohexano' }), opts: ['VVV', 'VVF', 'VFV', 'FVF', 'FFV'], ans: 1,
+  steps: [['I', 'Los metilos están en 1, 3 y 5: el menor conjunto posible → <b>1,3,5-trimetilciclohexano</b>. Verdadera.'], ['II', 'C<sub>6</sub>H<sub>12</sub> + 3 CH<sub>2</sub> = <b>C<sub>9</sub>H<sub>18</sub></b> (2n = 18). Verdadera.'], ['III', 'C<sub>9</sub>H<sub>16</sub> no cumple 2n. Falsa.'], ['Respuesta', 'V, V, F → <b>b) VVF</b>.']] });
+SIMS.push({ near: 14, title: 'Ramas en el mismo carbono', enun: 'Valor de verdad: (a) ciclohexano con etilo y metilo en el mismo carbono; (b) ciclopentano con metilo y propilo en carbonos vecinos.<br>I. (a) se llama 1-etil-1-metilciclohexano.<br>II. (b) se llama 1-propil-2-metilciclopentano.<br>III. La fórmula global de (a) es C<sub>9</sub>H<sub>18</sub>.',
+  fig: () => `<div class="figrow">${figure(ringFig({ n: 6, subs: [{ p: 0, key: 'metil' }, { p: 0, key: 'etil' }] }, { nums: { 0: 1 }, R: 1.3 }).svg({ label: 'a' }), '(a)')}${figure(ringFig({ n: 5, subs: [{ p: 4, key: 'propil' }, { p: 0, key: 'metil' }] }, { nums: { 4: 1, 0: 2 }, R: 1.3 }).svg({ label: 'b' }), '(b)')}</div>`, wide: true, opts: ['VVV', 'VFV', 'FVV', 'VVF', 'FFV'], ans: 1,
+  steps: [['I', 'Dos ramas en el mismo carbono: ese carbono es C1 y se repite el número; alfabético (etil antes que metil) → <b>1-etil-1-metilciclohexano</b>. Verdadera.'], ['II', 'En (b) los números {1,2} se asignan alfabéticamente: <b>m</b>etil = 1, <b>p</b>ropil = 2 → <b>1-metil-2-propilciclopentano</b>. “1-propil-2-metil” rompe el orden alfabético. Falsa.'], ['III', 'C<sub>6</sub>H<sub>12</sub> + CH<sub>2</sub> (metilo) + C<sub>2</sub>H<sub>4</sub> (etilo) = <b>C<sub>9</sub>H<sub>18</sub></b>. Verdadera.'], ['Respuesta', 'V, F, V → <b>b) VFV</b>.']] });
+
+add('Práctica', 'p3', 'Ejercicios similares a los del libro', '10 ejercicios con la misma estructura de las preguntas 2, 3, 8, 11 y 14', root => {
+  let filt = 0;
+  root.innerHTML = `<p>Cada ejercicio se parece a uno del libro. Responde y compara con el paso a paso.</p><div class="chips" id="flt" role="group" aria-label="Filtrar"><button class="chip" data-f="0" aria-pressed="true" type="button">Todos</button>${[2, 3, 8, 11, 14].map(n => `<button class="chip" data-f="${n}" aria-pressed="false" type="button">Como la ${n}</button>`).join('')}</div><div id="sl"></div>`;
+  const draw = () => { const L = $('#sl', root); L.innerHTML = ''; SIMS.forEach((s, i) => { if (filt && s.near !== filt) return;
+    const c = el(`<article class="exc"><header><span class="tag p">Similar a la ${s.near}</span><h3>${s.title}</h3></header><div class="enun">${s.enun}</div><div class="figrow">${s.wide ? s.fig() : `<div class="fig" style="margin:0">${s.fig()}</div>`}</div><div class="mcq"></div><div class="rest"></div></article>`);
+    const rest = $('.rest', c);
+    $('.mcq', c).appendChild(mcBlock({ opts: s.opts, ans: s.ans, key: 'sim' + i, pts: 10, onDone: () => { rest.innerHTML = '<h4 style="margin:12px 0 4px">📖 Justificación paso a paso</h4>' + stepsHTML(s.steps); } }));
+    L.appendChild(c); }); };
+  $('#flt', root).onclick = e => { const b = e.target.closest('[data-f]'); if (!b) return; filt = +b.dataset.f; $$('#flt .chip', root).forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); }; draw();
+});
+
+/* =====================================================================
+   6. JUEGOS
+   ===================================================================== */
+/* pool de compuestos (nombres calculados por el motor) */
+const POOL = [
+  { spec: { n: 6, arom: true, subs: [{ p: 0, key: 'metil' }] }, lab: 'tolueno' },
+  { spec: { n: 6, arom: true, subs: [{ p: 1, key: 'cloro' }, { p: 4, key: 'cloro' }] } },
+  { spec: { n: 6, subs: [{ p: 0, key: 'metil' }, { p: 2, key: 'metil' }, { p: 3, key: 'metil' }] } },
+  { spec: { n: 5, subs: [{ p: 0, key: 'metil' }, { p: 0, key: 'etil' }] } },
+  { spec: { n: 6, arom: true, subs: [{ p: 0, key: 'metil' }, { p: 2, key: 'etil' }, { p: 3, key: 'bromo' }] } },
+  { spec: { n: 6, arom: true, subs: [{ p: 0, key: 'metil' }, { p: 2, key: 'metil' }, { p: 4, key: 'etil' }] } },
+  { spec: { n: 5, subs: [{ p: 4, key: 'bromo' }, { p: 0, key: 'metil' }], dbl: [2] } },
+  { spec: { n: 5, subs: [{ p: 4, key: 'metil' }, { p: 2, key: 'etil' }], dbl: [4, 1] } },
+  { spec: { n: 6, subs: [{ p: 4, key: 'tert-butil' }, { p: 1, key: 'isopropil' }] } },
+  { spec: { n: 6, arom: true, subs: [{ p: 0, key: 'nitro' }, { p: 2, key: 'bromo' }, { p: 3, key: 'metil' }] } }
+];
+POOL.forEach(p => { p.name = analyze(p.spec).name; });
+
+const ERRS = [
+  { spec: { n: 6, subs: [{ p: 0, key: 'metil' }, { p: 3, key: 'etil' }] }, wrong: '1-metil-4-etilciclohexano', right: '1-etil-4-metilciclohexano', err: 'alf', why: 'Con empate de números (1,4), el <b>orden alfabético</b> decide: etil (e) antes que metil (m), así que el etilo lleva el 1.' },
+  { spec: { n: 5, subs: [{ p: 4, key: 'bromo' }], dbl: [2] }, wrong: '5-bromociclopenteno', right: '3-bromociclopenteno', err: 'dbl', why: 'El <b>doble enlace manda</b>: C1=C2. Desde ahí, el Br queda en 3, no en 5.' },
+  { spec: { n: 6, arom: true, subs: [{ p: 0, key: 'metil' }] }, wrong: '1-metilbenceno', right: 'tolueno', err: 'uno', why: 'Con <b>un solo sustituyente</b> no se numera, y el metilbenceno tiene nombre propio: <b>tolueno</b>.' },
+  { spec: { n: 5, subs: [{ p: 0, key: 'metil' }, { p: 0, key: 'etil' }] }, wrong: '2-etil-2-metilciclopentano', right: '1-etil-1-metilciclopentano', err: 'gem', why: 'Si dos ramas están en el <b>mismo carbono</b>, ese carbono es el 1 y se repite el número.' },
+  { spec: { n: 6, subs: [{ p: 0, key: 'metil' }, { p: 2, key: 'metil' }, { p: 3, key: 'metil' }] }, wrong: '1,3,4-trimetilciclohexano', right: '1,2,4-trimetilciclohexano', err: 'set', why: 'Hay una numeración con <b>menor conjunto</b>: {1,2,4} es menor que {1,3,4}.' },
+  { spec: { n: 6, subs: [{ p: 4, key: 'tert-butil' }, { p: 1, key: 'isopropil' }] }, wrong: '1-isopropil-4-tert-butilciclohexano', right: '1-tert-butil-4-isopropilciclohexano', err: 'alf', why: 'Se ordena por <b>butil</b> (tert- no cuenta) → b antes que i (isopropil).' },
+  { spec: { n: 5, subs: [{ p: 1, key: 'cloro' }, { p: 2, key: 'metil' }] }, wrong: '1-metil-2-clorociclopentano', right: '1-cloro-2-metilciclopentano', err: 'alf', why: 'Con empate {1,2}, alfabético: <b>c</b>loro antes que <b>m</b>etil.' },
+  { spec: { n: 6, subs: [{ p: 1, key: 'metil' }, { p: 4, key: 'etil' }], dbl: [0, 2] }, wrong: '1-etil-4-metilciclohexa-2,4-dieno', right: null, err: 'dbl', why: 'Los dobles enlaces deben llevar los <b>números más bajos (1,3)</b> antes de pensar en las ramas.' }
+];
+ERRS.forEach(e => { if (!e.right) e.right = analyze(e.spec).name; });
+const ERRNAME = { alf: 'Orden alfabético', set: 'Menor conjunto de números', dbl: 'Doble enlace sin prioridad', uno: 'Un solo sustituyente / nombre propio', gem: 'Dos ramas en el mismo carbono' };
+
+const HUCK = [
+  ['Benceno', 6, true, true, true, 'Cíclico, plano, conjugado y 6 e⁻ π = 4(1)+2.'],
+  ['Naftaleno', 10, true, true, true, '10 e⁻ π = 4(2)+2.'],
+  ['Antraceno', 14, true, true, true, '14 e⁻ π = 4(3)+2.'],
+  ['Ciclohexano', 0, true, false, false, 'No tiene electrones π ni conjugación: es alicíclico saturado.'],
+  ['Ciclohexeno', 2, true, false, false, 'Tiene un solo doble enlace: no hay conjugación en todo el anillo.'],
+  ['Ciclobutadieno', 4, true, true, false, '4 e⁻ π = 4n (n=1): <b>antiaromático</b>, no cumple 4n+2.'],
+  ['Ciclooctatetraeno', 8, true, false, false, 'Tiene 8 e⁻ π (4n) y no es plano (forma de “tina”).'],
+  ['Tolueno', 6, true, true, true, 'El anillo conserva 6 e⁻ π; el CH₃ solo es una rama.'],
+  ['Ciclohexa-1,3-dieno', 4, true, false, false, 'Tiene 4 e⁻ π y un carbono sp³: no está conjugado en todo el anillo.'],
+  ['Hexano', 0, false, false, false, 'No es cíclico (cadena abierta).']
+];
+
+add('Práctica', 'p4', 'Juegos', 'Practica jugando: gana ⭐ y mejora tu racha', root => {
+  const G = ['Reto infinito', 'Parejas', 'Cazador de errores', 'Hückel veloz'];
+  root.innerHTML = `<div class="tabs" role="tablist" aria-label="Juegos">${G.map((g, i) => `<button class="tab" role="tab" data-g="${i}" aria-selected="${i === 0}" type="button">${['🎲', '🃏', '🔎', '⚡'][i]} ${g}</button>`).join('')}</div><div id="gbox"></div>`;
+  const box = $('#gbox', root); const games = [gameReto, gameMem, gameErr, gameHuck];
+  const open = i => { $$('.tab', root).forEach(t => t.setAttribute('aria-selected', +t.dataset.g === i)); box.innerHTML = ''; games[i](box); };
+  root.addEventListener('click', e => { const t = e.target.closest('.tab'); if (t) open(+t.dataset.g); }); open(0);
+});
+
+function gameReto(box) {
+  let level = 1, qn = 0, pts = 0, streak = 0, best = store.get('streak', 0), cur;
+  box.innerHTML = `<div class="tile"><b>Reto infinito.</b> Te muestro un compuesto al azar: elige su nombre correcto. Rondas de 10.</div>
+  <div class="ctrl"><span>Nivel:</span><div class="chips" id="lv" role="group"><button class="chip" data-l="1" aria-pressed="true" type="button">1 · Cicloalcanos</button><button class="chip" data-l="2" aria-pressed="false" type="button">2 · + Benceno</button><button class="chip" data-l="3" aria-pressed="false" type="button">3 · Dobles / tolueno / xileno</button></div></div>
+  <div class="stat"><span class="pill">Pregunta <b id="rq">0</b>/10</span><span class="pill">Puntos <b id="rp">0</b></span><span class="pill">Racha <b id="rs">0</b> (récord <b id="rb">${best}</b>)</span></div><div class="bar" aria-hidden="true"><i id="rbar"></i></div><div id="rbody"></div>`;
+  const body = $('#rbody', box);
+  const upd = () => { $('#rq', box).textContent = Math.min(qn, 10); $('#rp', box).textContent = pts; $('#rs', box).textContent = streak; $('#rb', box).textContent = best; $('#rbar', box).style.width = qn * 10 + '%'; };
+  function next() {
+    if (qn >= 10) { body.innerHTML = `<div class="tile" style="text-align:center"><div class="big">${pts >= 80 ? '🏆' : pts >= 50 ? '👏' : '💪'}</div><h3>¡Ronda terminada!</h3><p>Hiciste <b>${pts}</b> puntos de 100.</p><button class="btn primary" id="again" type="button">Jugar otra ronda</button></div>`; $('#again', body).onclick = () => { qn = 0; pts = 0; streak = 0; upd(); next(); }; if (pts >= 80) confetti(); return; }
+    cur = genRandom(level); const { spec, res } = cur, mc = mcFrom(res), sp = ringFig(spec, { R: spec.arom ? 1.1 : 1.4 });
+    qn++; upd();
+    body.innerHTML = `<div class="enun">¿Cuál es el nombre IUPAC de este compuesto?</div><div class="figrow"><div class="fig" id="rfig">${sp.svg({ label: 'Compuesto al azar' })}</div></div><div id="rmc"></div><div id="rex"></div>`;
+    $('#rmc', body).appendChild(mcBlock({ opts: mc.opts, ans: mc.ans, key: null, onDone: ok => {
+      if (ok) { streak++; pts += 10 + Math.min(streak - 1, 3) * 0; award(null, 1); if (streak > best) { best = streak; store.set('streak', best); } } else streak = 0; upd();
+      const nums = {}; res.loc.forEach((v, k) => nums[k] = v); $('#rfig', body).innerHTML = ringFig(spec, { nums, R: spec.arom ? 1.1 : 1.4 }).svg({ label: 'Compuesto numerado' });
+      $('#rex', body).innerHTML = `<details open><summary>Paso a paso</summary><div>${stepsHTML(stepsFor(res))}</div></details><div class="ctrl"><button class="btn primary" id="nx" type="button">${qn >= 10 ? 'Ver resultado' : 'Siguiente ▸'}</button></div>`; $('#nx', body).onclick = next; $('#nx', body).focus();
+    } }));
+  }
+  $('#lv', box).onclick = e => { const b = e.target.closest('[data-l]'); if (!b) return; level = +b.dataset.l; $$('#lv .chip', box).forEach(x => x.setAttribute('aria-pressed', x === b)); qn = 0; pts = 0; streak = 0; upd(); next(); };
+  next();
+}
+
+function gameMem(box) {
+  let flipped = [], moves = 0, matched = 0, lock = false;
+  const sel = shuffle(POOL).slice(0, 6);
+  const cards = shuffle(sel.flatMap((p, i) => [{ id: i, t: 'f', p }, { id: i, t: 'n', p }]));
+  box.innerHTML = `<div class="tile"><b>Parejas.</b> Une cada estructura con su nombre IUPAC. ¡Cuantos menos movimientos, mejor!</div><div class="stat"><span class="pill">Movimientos <b id="mv">0</b></span><span class="pill">Parejas <b id="mt">0</b>/6</span><button class="btn sm" id="mr" type="button">Reiniciar</button></div><div class="mem" id="mg"></div><div id="mend"></div>`;
+  const g = $('#mg', box);
+  g.innerHTML = cards.map((c, i) => `<button type="button" class="mc" data-i="${i}" aria-label="Carta ${i + 1}"><span class="back">❓</span></button>`).join('');
+  const show = (b, c) => { b.classList.add('up'); b.innerHTML = `<span class="face">${c.t === 'f' ? ringFig(c.p.spec, { R: c.p.spec.arom ? .8 : .9 }).svg({ scale: .7, label: 'estructura' }) : `<span style="word-break:break-word">${c.p.name}</span>`}</span>`; };
+  const hide = b => { b.classList.remove('up'); b.innerHTML = '<span class="back">❓</span>'; };
+  g.onclick = e => { const b = e.target.closest('.mc'); if (!b || lock || b.classList.contains('up') || b.classList.contains('done')) return; const c = cards[+b.dataset.i]; show(b, c); flipped.push({ b, c });
+    if (flipped.length === 2) { moves++; $('#mv', box).textContent = moves; const [x, y] = flipped;
+      if (x.c.id === y.c.id) { x.b.classList.add('done'); y.b.classList.add('done'); matched++; $('#mt', box).textContent = matched; flipped = []; award(null, 1);
+        if (matched === 6) { confetti(); const st = moves <= 9 ? '⭐⭐⭐' : moves <= 14 ? '⭐⭐' : '⭐'; $('#mend', box).innerHTML = `<div class="fb ok" style="text-align:center">🎉 ¡Completado en ${moves} movimientos! ${st}</div>`; award(null, 5); } }
+      else { lock = true; setTimeout(() => { hide(x.b); hide(y.b); flipped = []; lock = false; }, 1000); } } };
+  $('#mr', box).onclick = () => gameMem(box);
+}
+
+function gameErr(box) {
+  const order = shuffle(ERRS); let i = 0, ok = 0;
+  box.innerHTML = `<div class="tile"><b>Cazador de errores.</b> Cada compuesto tiene un nombre mal escrito. ¿Qué regla se rompió?</div><div class="stat"><span class="pill">Caso <b id="en">1</b>/${order.length}</span><span class="pill">Aciertos <b id="eo">0</b></span></div><div id="ebody"></div>`;
+  const body = $('#ebody', box);
+  function show() {
+    if (i >= order.length) { body.innerHTML = `<div class="tile" style="text-align:center"><div class="big">${ok >= 7 ? '🏆' : '💪'}</div><h3>${ok} de ${order.length}</h3><button class="btn primary" id="er" type="button">Otra vez</button></div>`; $('#er', body).onclick = () => gameErr(box); return; }
+    const e = order[i]; $('#en', box).textContent = i + 1;
+    const wrongKeys = shuffle(Object.keys(ERRNAME).filter(k => k !== e.err)).slice(0, 3), keys = shuffle([e.err, ...wrongKeys]);
+    body.innerHTML = `<div class="figrow"><div class="fig">${ringFig(e.spec, { R: e.spec.arom ? 1.1 : 1.4 }).svg({ label: 'Compuesto' })}<div class="cap">Nombre propuesto:</div><div class="namebig" style="color:var(--red)">${e.wrong}</div></div></div><p><b>¿Qué regla se rompió?</b></p><div id="eq"></div><div id="ex"></div>`;
+    $('#eq', body).appendChild(mcBlock({ opts: keys.map(k => ERRNAME[k]), ans: keys.indexOf(e.err), onDone: g => { if (g) { ok++; award(null, 2); } $('#eo', box).textContent = ok; $('#ex', body).innerHTML = `<div class="box ess"><b>Nombre correcto</b><span class="namebig" style="color:var(--green)">${e.right}</span></div><div class="box info"><b>¿Por qué?</b>${e.why}</div><button class="btn primary" id="enx" type="button">${i + 1 >= order.length ? 'Ver resultado' : 'Siguiente ▸'}</button>`; $('#enx', body).onclick = () => { i++; show(); }; } }));
+  }
+  show();
+}
+
+function gameHuck(box) {
+  const order = shuffle(HUCK); let i = 0, ok = 0, t0 = 0;
+  box.innerHTML = `<div class="tile"><b>Hückel veloz.</b> ¿Aromático o no? Piensa: cíclico, plano, conjugado y 4n+2 electrones π.</div><div class="stat"><span class="pill">Carta <b id="hn">1</b>/${order.length}</span><span class="pill">Aciertos <b id="ho">0</b></span></div><div id="hbody"></div>`;
+  const body = $('#hbody', box);
+  function show() {
+    if (i >= order.length) { body.innerHTML = `<div class="tile" style="text-align:center"><div class="big">${ok >= 8 ? '🏆' : '💪'}</div><h3>${ok} de ${order.length}</h3><button class="btn primary" id="hr" type="button">Otra vez</button></div>`; $('#hr', body).onclick = () => gameHuck(box); if (ok >= 8) confetti(); return; }
+    const h = order[i]; $('#hn', box).textContent = i + 1;
+    body.innerHTML = `<div class="tile" style="text-align:center"><h3 style="font-size:24px">${h[0]}</h3><p class="mut">${h[2] ? 'Es cíclico' : 'No es cíclico'} · electrones π: <b>${h[1]}</b></p><div class="ctrl" style="justify-content:center"><button class="btn primary" data-a="1" type="button">✔ Aromático</button><button class="btn" data-a="0" type="button">✘ No aromático</button></div></div><div id="hx"></div>`;
+    body.onclick = e => { const b = e.target.closest('[data-a]'); if (!b) return; const g = (b.dataset.a === '1') === h[4]; $$('[data-a]', body).forEach(x => x.disabled = true); if (g) { ok++; award(null, 1); } $('#ho', box).textContent = ok;
+      $('#hx', body).innerHTML = `<div class="fb ${g ? 'ok' : 'bad'}">${g ? '✔ ¡Bien!' : '✘ Casi.'} ${h[4] ? 'Sí es aromático.' : 'No es aromático.'}</div><div class="box info"><b>Razón</b>${h[5]}</div><button class="btn primary" id="hnx" type="button">${i + 1 >= order.length ? 'Ver resultado' : 'Siguiente ▸'}</button>`; $('#hnx', body).onclick = () => { i++; show(); }; $('#hnx', body).focus(); };
+  }
+  show();
+}
+
+/* =====================================================================
+   7. NAVEGACIÓN
+   ===================================================================== */
+let cur = 0; const seen = new Set(store.get('seen', []));
+function buildNav() {
+  let h = '', g = '';
+  SECTIONS.forEach((s, i) => { if (s.g !== g) { g = s.g; h += `<h2>${g}</h2>`; } h += `<button type="button" class="nb ${seen.has(s.id) ? 'seen' : ''}" data-i="${i}" aria-current="false"><span class="dot">${seen.has(s.id) ? '✓' : ''}</span>${s.title}</button>`; });
+  $('#navlist').innerHTML = h;
+}
+function go(i, push = true) {
+  i = Math.max(0, Math.min(SECTIONS.length - 1, i)); cur = i; const s = SECTIONS[i];
+  $('#stitle').textContent = s.title; $('#ssub').textContent = s.sub; document.title = s.title + ' · Hidrocarburos cíclicos y aromáticos';
+  const b = $('#sbody'); b.innerHTML = ''; b.style.animation = 'none'; void b.offsetWidth; b.style.animation = ''; s.render(b);
+  seen.add(s.id); store.set('seen', [...seen]); buildNav();
+  $$('.nb').forEach(x => x.setAttribute('aria-current', +x.dataset.i === i));
+  $('#prev').disabled = i === 0; $('#next').disabled = i === SECTIONS.length - 1; $('#pind').textContent = `Sección ${i + 1} de ${SECTIONS.length}`;
+  $('#prog').style.width = ((seen.size / SECTIONS.length) * 100) + '%';
+  if (push) { try { history.replaceState(null, '', '#' + s.id); } catch (e) {} window.scrollTo({ top: 0 }); }
+  const act = $('.nb[aria-current=true]'); if (act && act.scrollIntoView) act.scrollIntoView({ block: 'nearest', inline: 'center' });
+}
+$('#navlist').addEventListener('click', e => { const b = e.target.closest('.nb'); if (b) go(+b.dataset.i); });
+$('#prev').onclick = () => go(cur - 1); $('#next').onclick = () => go(cur + 1);
+document.addEventListener('keydown', e => { if (/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName) || e.ctrlKey || e.metaKey || e.altKey) return; if (e.key === 'ArrowRight') go(cur + 1); if (e.key === 'ArrowLeft') go(cur - 1); });
+/* tema y numeración */
+const root = document.documentElement;
+$('#themeBtn').onclick = () => { root.classList.toggle('dark'); store.set('tema', root.classList.contains('dark') ? 'dark' : 'light'); };
+let showNums = true;
+$('#numBtn').onclick = () => { showNums = !showNums; root.classList.toggle('hide-nums', !showNums); $('#numBtn').textContent = 'Numeración: ' + (showNums ? 'ON' : 'OFF'); $('#numBtn').setAttribute('aria-pressed', showNums); };
+renderScore();
+const hash = location.hash.slice(1), first = SECTIONS.findIndex(s => s.id === hash);
+buildNav(); go(first >= 0 ? first : 0, false);
+</script>
+</body>
+</html>
